@@ -3,7 +3,7 @@
   <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="cars">
     <div class="col" *ngFor="let car of cars">
       <div class="card" >
-        <img src="{{car.imageSrc}}" class="card-img-top" alt="..." />
+        <img [src]="car.imageSrc | safeResourceUrl" class="card-img-top" alt="Image did not load" />
         <div class="card-body">
           <h3 class="card-title">{{ car.name }} &nbsp;&nbsp;{{ car.price }}$</h3>
           <p class="card-text">
@@ -15,7 +15,3 @@
   </div>
   <p *ngIf="cars.length === 0">Error</p>
 </div>
-
-<!-- 
-    imageSrc: string;
- -->

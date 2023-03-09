@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Server.Data;
 using Server.Models;
-using System;
+using Server.Services;
 
 namespace Server.Controllers
 {
@@ -18,10 +18,11 @@ namespace Server.Controllers
             private readonly IWebHostEnvironment _environment;
 
 
-            public CarController(MyDbContext mydbcontext, IWebHostEnvironment environment)
+        public CarController(MyDbContext mydbcontext, IWebHostEnvironment environment)
             {
                 this.mydbcontext = mydbcontext;
                 this._environment = environment;
+
 
         }
 
@@ -48,14 +49,11 @@ namespace Server.Controllers
                     var formCollection = await Request.ReadFormAsync();
                     var file = formCollection.Files.First();
 
-                    var folderName = Path.Combine("Resources", "Images");
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-
                     if (file.Length > 0)
                     {
                         var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
-                        var fullPath = Path.Combine(pathToSave, fileName.ToString());
-                        var dbPath = Path.Combine(folderName, fileName.ToString());
+                        var fullPath = Path.Combine(Paths.GetGlobalPath(), fileName.ToString());
+                        var dbPath = Path.Combine(Paths.GetLocalPath(), fileName.ToString());
                         using (var stream = new FileStream(fullPath, FileMode.Create))
                         {
                             file.CopyTo(stream);
@@ -87,13 +85,14 @@ namespace Server.Controllers
             {
                 var cars = await mydbcontext.Cars.ToListAsync();
 
-                foreach (var car in cars)
-                {
-                    car.ImageSrc = Url.Action("GetCarImage", "Cars", new { id = car.Id });
-                }
+            foreach (var car in cars)
+            {
+                //car.ImageSrc = Url.Action("GetCarImage", "Cars", new { id = car.Id });
+                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() +@"\"+ car.ImageSrc!).ToString();
+            }
 
-                return Ok(cars);
-                }
+            return Ok(cars);
+            }
 
             // Returns a specific car
             [HttpGet]
@@ -138,36 +137,36 @@ namespace Server.Controllers
                 return Ok(cars);
             }
 
-            // Returns the car image
-            [HttpGet("image/{id}")]
-            public IActionResult GetCarImage(long id)
+        // Returns the car image
+        [HttpGet("image/{id}")]
+        public async Task<IActionResult> GetCarImage(long id)
+        {
+            var car = await mydbcontext.Cars.FindAsync(id);
+
+            if (car == null)
             {
-                var car = mydbcontext.Cars.Find(id);
-
-                if (car == null)
-                {
-                    return NotFound();
-                }
-
-                var imagePath = Path.Combine("Images", "Cars", car.ImageSrc);
-                var imageFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, imagePath);
-
-                if (!System.IO.File.Exists(imageFilePath))
-                {
-                    return NotFound();
-                }
-
-                var imageFile = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
-
-                return File(imageFile, "image/jpeg");
+                return NotFound();
             }
 
+            var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
+
+            if (!System.IO.File.Exists(imagePath))
+            {
+                return NotFound();
+            }
+
+            var imageBytes = System.IO.File.ReadAllBytes(imagePath);
 
 
-            //// PUT 
-            
-            // Updates car values
-            [HttpPut]
+            return File(imageBytes, "image/jpeg");
+        }
+
+
+
+        //// PUT 
+
+        // Updates car values
+        [HttpPut]
             [Route("{id:}")]
             public async Task<IActionResult> UpdateCar([FromRoute] long id, Car UpdatedCar)
             {

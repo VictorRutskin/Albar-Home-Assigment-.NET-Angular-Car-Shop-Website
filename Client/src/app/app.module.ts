@@ -18,6 +18,7 @@ import { CarsCardsComponent } from './Components/cars-cards/cars-cards.component
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { UploadImageComponent } from './Components/upload-image/upload-image.component';
+import { SafeResourceUrlPipe } from './Pipes/SafeResourceUrl/safe-resource-url.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UploadImageComponent } from './Components/upload-image/upload-image.com
     AllCarsPageComponent,
     CarouselComponent,
     CarsCardsComponent,
-    UploadImageComponent
+    UploadImageComponent,
+    SafeResourceUrlPipe
   ],
   imports: [
     BrowserModule,

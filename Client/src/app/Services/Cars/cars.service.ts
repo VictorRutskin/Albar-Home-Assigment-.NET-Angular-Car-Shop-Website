@@ -13,4 +13,9 @@ export class CarsService {
   GetAllCars(): Observable<Car[]> {
     return this.http.get<Car[]>(environment.ServerUrl + '/api/Car');
   }
+
+  GetImage(id : number) {
+    return this.http.get(environment.ServerUrl + '/api/Car/image/'+id, { responseType: 'blob' });
+  }
+  
 }
