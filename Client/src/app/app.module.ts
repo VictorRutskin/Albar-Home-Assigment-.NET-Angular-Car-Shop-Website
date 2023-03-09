@@ -17,6 +17,7 @@ import { CarouselComponent } from './Components/carousel/carousel.component';
 import { CarsCardsComponent } from './Components/cars-cards/cars-cards.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { UploadImageComponent } from './Components/upload-image/upload-image.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     SuvCarsPageComponent,
     AllCarsPageComponent,
     CarouselComponent,
-    CarsCardsComponent
+    CarsCardsComponent,
+    UploadImageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using Server.Data;
 using Server.Models;
+using System;
 
 namespace Server.Controllers
 {
@@ -9,15 +11,22 @@ namespace Server.Controllers
     [Route("api/[controller]")]
     public class CarController : Controller
     {
+            private readonly IWebHostEnvironment _hostingEnvironment;
+
             private readonly MyDbContext mydbcontext;
 
-            public CarController(MyDbContext mydbcontext)
+            private readonly IWebHostEnvironment _environment;
+
+
+            public CarController(MyDbContext mydbcontext, IWebHostEnvironment environment)
             {
                 this.mydbcontext = mydbcontext;
-            }
+                this._environment = environment;
+
+        }
 
             //// POST
-            //
+            
             // Adds a car with specific values
             [HttpPost]
             public async Task<IActionResult> AddCar([FromBody] Car car)
@@ -28,21 +37,63 @@ namespace Server.Controllers
 
                 return Ok(car);
             }
-            //
-            //
-            ////
+
+            // Uploading Car Image
+            [HttpPost]
+            [Route("Image")]
+            public async Task<IActionResult> UploadCarImage()
+            {
+                try
+                {
+                    var formCollection = await Request.ReadFormAsync();
+                    var file = formCollection.Files.First();
+
+                    var folderName = Path.Combine("Resources", "Images");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                    if (file.Length > 0)
+                    {
+                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+                        var fullPath = Path.Combine(pathToSave, fileName.ToString());
+                        var dbPath = Path.Combine(folderName, fileName.ToString());
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        return Ok(new { dbPath });
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Internal server error: {ex}");
+                }
+            }
+
+
+            
+
 
 
             //// GET 
-            //
+
             // Returns all cars
             [HttpGet]
             public async Task<IActionResult> GetAllCars()
             {
                 var cars = await mydbcontext.Cars.ToListAsync();
 
+                foreach (var car in cars)
+                {
+                    car.ImageSrc = Url.Action("GetCarImage", "Cars", new { id = car.Id });
+                }
+
                 return Ok(cars);
-            }
+                }
 
             // Returns a specific car
             [HttpGet]
@@ -55,6 +106,17 @@ namespace Server.Controllers
                 {
                     return NotFound();
                 }
+
+                //var imageFilePath = Path.Combine("Images", "Cars", car.ImageSrc);
+
+                //if (!System.IO.File.Exists(imageFilePath))
+                //{
+                //    return NotFound();
+                //}
+
+                //var imageFile = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
+
+                //return File(imageFile, "image/jpeg");
 
                 return Ok(car);
             }
@@ -75,13 +137,35 @@ namespace Server.Controllers
 
                 return Ok(cars);
             }
-            //
-            //
-            ////
+
+            // Returns the car image
+            [HttpGet("image/{id}")]
+            public IActionResult GetCarImage(long id)
+            {
+                var car = mydbcontext.Cars.Find(id);
+
+                if (car == null)
+                {
+                    return NotFound();
+                }
+
+                var imagePath = Path.Combine("Images", "Cars", car.ImageSrc);
+                var imageFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, imagePath);
+
+                if (!System.IO.File.Exists(imageFilePath))
+                {
+                    return NotFound();
+                }
+
+                var imageFile = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
+
+                return File(imageFile, "image/jpeg");
+            }
+
 
 
             //// PUT 
-            //
+            
             // Updates car values
             [HttpPut]
             [Route("{id:}")]
@@ -103,13 +187,11 @@ namespace Server.Controllers
 
                 return Ok(car);
             }
-            //
-            //
-            ////
+
 
 
             //// DELETE 
-            //
+            
             // Deletes a car using id
             [HttpDelete]
             [Route("{id:}")]
@@ -126,9 +208,7 @@ namespace Server.Controllers
 
                 return Ok(car);
             }
-            //
-            //
-            ////
+
 
         }
     }

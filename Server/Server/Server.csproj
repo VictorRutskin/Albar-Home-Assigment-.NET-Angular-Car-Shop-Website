@@ -16,7 +16,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\Cars\Car-1.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-10.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-2.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-3.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-4.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-5.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-6.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-7.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-8.jpg" />
+    <None Include="wwwroot\Images\Cars\Car-9.jpg" />
   </ItemGroup>
 
 </Project>
