@@ -33,6 +33,9 @@ namespace Server.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageSrc")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ModelYear")
                         .HasColumnType("int");
 

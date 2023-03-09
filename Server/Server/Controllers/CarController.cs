@@ -16,14 +16,9 @@ namespace Server.Controllers
                 this.mydbcontext = mydbcontext;
             }
 
-            [HttpGet]
-            public async Task<IActionResult> GetAllCars()
-            {
-                var employees = await mydbcontext.Cars.ToListAsync();
-
-                return Ok(employees);
-            }
-
+            //// POST
+            //
+            // Adds a car with specific values
             [HttpPost]
             public async Task<IActionResult> AddCar([FromBody] Car car)
             {
@@ -33,23 +28,61 @@ namespace Server.Controllers
 
                 return Ok(car);
             }
+            //
+            //
+            ////
 
 
+            //// GET 
+            //
+            // Returns all cars
+            [HttpGet]
+            public async Task<IActionResult> GetAllCars()
+            {
+                var cars = await mydbcontext.Cars.ToListAsync();
+
+                return Ok(cars);
+            }
+
+            // Returns a specific car
             [HttpGet]
             [Route("{id:}")]
-
             public async Task<IActionResult> GetCar([FromRoute] long id)
             {
-                var employee = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
+                var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
 
-                if (employee == null)
+                if (car == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(employee);
+                return Ok(car);
             }
 
+            // Returns top 3 cars with most UnitsInStock value
+            [HttpGet]
+            [Route("{id:}")]
+            public async Task<IActionResult> Get3CarExtras()
+            {
+                var cars = await mydbcontext.Cars.OrderByDescending(c => c.UnitsInStock)
+                                                 .Take(3)
+                                                 .ToListAsync();
+
+                if (cars == null || !cars.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(cars);
+            }
+            //
+            //
+            ////
+
+
+            //// PUT 
+            //
+            // Updates car values
             [HttpPut]
             [Route("{id:}")]
             public async Task<IActionResult> UpdateCar([FromRoute] long id, Car UpdatedCar)
@@ -70,7 +103,14 @@ namespace Server.Controllers
 
                 return Ok(car);
             }
+            //
+            //
+            ////
 
+
+            //// DELETE 
+            //
+            // Deletes a car using id
             [HttpDelete]
             [Route("{id:}")]
             public async Task<IActionResult> DeleteCar([FromRoute] long id)
@@ -86,6 +126,9 @@ namespace Server.Controllers
 
                 return Ok(car);
             }
+            //
+            //
+            ////
 
         }
     }
