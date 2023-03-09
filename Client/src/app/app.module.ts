@@ -13,6 +13,10 @@ import { LuxuryCarsPageComponent } from './Pages/cars-pages/luxury-cars-page/lux
 import { SportsCarsPageComponent } from './Pages/cars-pages/sports-cars-page/sports-cars-page.component';
 import { SuvCarsPageComponent } from './Pages/cars-pages/suv-cars-page/suv-cars-page.component';
 import { AllCarsPageComponent } from './Pages/cars-pages/all-cars-page/all-cars-page.component';
+import { CarouselComponent } from './Components/carousel/carousel.component';
+import { CarsCardsComponent } from './Components/cars-cards/cars-cards.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,12 +30,16 @@ import { AllCarsPageComponent } from './Pages/cars-pages/all-cars-page/all-cars-
     LuxuryCarsPageComponent,
     SportsCarsPageComponent,
     SuvCarsPageComponent,
-    AllCarsPageComponent
+    AllCarsPageComponent,
+    CarouselComponent,
+    CarsCardsComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
-  ],
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

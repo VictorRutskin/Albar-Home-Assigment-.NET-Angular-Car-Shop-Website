@@ -61,7 +61,7 @@ namespace Server.Controllers
 
             // Returns top 3 cars with most UnitsInStock value
             [HttpGet]
-            [Route("{id:}")]
+            [Route("Top3")]
             public async Task<IActionResult> Get3CarExtras()
             {
                 var cars = await mydbcontext.Cars.OrderByDescending(c => c.UnitsInStock)
