@@ -27,7 +27,7 @@ export class AdminSingleCarEditPageComponent {
     imageSrc: '',
   };
     updateCar(){
-    this.carsService.PutBuyOne(this.car)
+    this.carsService.PutUpdateCar(this.car)
     .subscribe({
       next: (response) =>{
          location.reload();

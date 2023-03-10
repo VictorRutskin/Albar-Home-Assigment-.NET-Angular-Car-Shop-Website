@@ -8,13 +8,16 @@
         <label for="name" class="form-label">Name</label>
         <input
           [(ngModel)]="car.name"
+          [ngClass]="{ 'input-invalid': !validateField('name'), 'input-valid': validateField('name'), 'input-empty': !formData.name }"          (blur)="updateform()"
           name="name"
           type="text"
           id="name"
           class="form-control"
           aria-describedby="NameHelpBlock"
+          ng-pattern="RegexPatterns[0].pattern"
+          required
         />
-        <div id="NameHelpBlock" class="form-text">Max 30 Character</div>
+        <div id="NameHelpBlock" class="form-text">50 Characters</div>
       </div>
       <div class="m-3">
         <label for="category" class="form-label">Category</label>
@@ -24,6 +27,7 @@
           class="form-select form-select-sm"
           aria-label=".form-select-sm example"
           [(ngModel)]="car.category"
+          required
         >
           <option value="Family">Family</option>
           <option value="Mini">Mini</option>
@@ -42,6 +46,8 @@
           id="price"
           class="form-control"
           aria-describedby="PriceHelpBlock"
+          ng-pattern="RegexPatterns[1].pattern"
+          required
         />
         <div id="PriceHelpBlock" class="form-text">
           Number between 1-9999999
@@ -56,8 +62,12 @@
           id="unitsInStock"
           class="form-control"
           aria-describedby="UnitsInStockHelpBlock"
+          ng-pattern="RegexPatterns[2].pattern"
+          required
         />
-        <div id="UnitsInStockHelpBlock" class="form-text">Max Units: 1000</div>
+        <div id="UnitsInStockHelpBlock" class="form-text">
+          Number Between 0-1000
+        </div>
       </div>
       <div class="m-3">
         <label for="modelYear" class="form-label">Model Year</label>
@@ -68,9 +78,11 @@
           id="modelYear"
           class="form-control"
           aria-describedby="ModelYearHelpBlock"
+          ng-pattern="RegexPatterns[3].pattern"
+          required
         />
         <div id="ModelYearHelpBlock" class="form-text">
-          Number Between 1000-9999
+          Number Between 1886-2023
         </div>
       </div>
       <button type="submit" class="btn btn-primary m-5">Submit</button>
