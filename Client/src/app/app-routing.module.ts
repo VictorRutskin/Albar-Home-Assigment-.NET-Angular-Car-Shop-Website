@@ -9,6 +9,7 @@ import { SuvCarsPageComponent } from './Pages/cars-pages/suv-cars-page/suv-cars-
 import { TruckCarsPageComponent } from './Pages/cars-pages/truck-cars-page/truck-cars-page.component';
 import { MainPageComponent } from './Pages/main-page/main-page.component';
 import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.component';
+import { SuccessfullPurchasePageComponent } from './Pages/successfull-purchase-page/successfull-purchase-page.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'Cars/SUV',
     component: SuvCarsPageComponent,
+  },
+  {
+    path: 'Cars/:id/Success',
+    component: SuccessfullPurchasePageComponent,
   },
   {
     path: 'Cars/:id',

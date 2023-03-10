@@ -34,7 +34,7 @@ export class SingleCarPageComponent implements OnInit {
     this.carsService.PostBuyOne(this.car)
     .subscribe({
       next: (response) =>{
-        this.router.navigate(['Home']);
+        this.router.navigate(['Cars/'+this.carId+'/Success']);
       }
     });
   }

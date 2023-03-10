@@ -23,6 +23,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.component';
+import { SuccessfullPurchasePageComponent } from './Pages/successfull-purchase-page/successfull-purchase-page.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.
     UploadImageComponent,
     SafeResourceUrlPipe,
     SingleCarPageComponent,
+    SuccessfullPurchasePageComponent,
     
   ],
   imports: [
