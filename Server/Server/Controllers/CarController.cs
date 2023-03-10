@@ -4,6 +4,7 @@ using Microsoft.Net.Http.Headers;
 using Server.Data;
 using Server.Models;
 using Server.Services;
+using static Server.Services.ExceptionHandler;
 
 namespace Server.Controllers
 {
@@ -18,13 +19,13 @@ namespace Server.Controllers
             private readonly IWebHostEnvironment _environment;
 
 
-        public CarController(MyDbContext mydbcontext, IWebHostEnvironment environment)
+            public CarController(MyDbContext mydbcontext, IWebHostEnvironment environment)
             {
                 this.mydbcontext = mydbcontext;
                 this._environment = environment;
 
 
-        }
+            }   
 
             //// POST
             
@@ -32,6 +33,13 @@ namespace Server.Controllers
             [HttpPost]
             public async Task<IActionResult> AddCar([FromBody] Car car)
             {
+            // If car with the name exist do not add.
+            var CheckingExistingNameCar = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == car.Name);
+
+            if (CheckingExistingNameCar != null)
+            {
+                return Conflict("A car with this name already exists, duplicates are not allowed.");
+            }
 
                 await mydbcontext.AddAsync(car);
                 await mydbcontext.SaveChangesAsync();
@@ -87,13 +95,18 @@ namespace Server.Controllers
 
                 foreach (var car in cars)
                 {
-                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() +@"\"+ car.ImageSrc!).ToString();
+                try
+                {
+                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                }
+                //no image src detected
+                catch { }
                 }
 
                 return Ok(cars);
             }
 
-            // Returns a specific car
+            // Returns a specific car using id
             [HttpGet]
             [Route("{id:}")]
             public async Task<IActionResult> GetCar([FromRoute] long id)
@@ -108,6 +121,24 @@ namespace Server.Controllers
 
                 car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
                 
+
+                return Ok(car);
+            }
+
+            //  Returns a specific car using body
+            [HttpGet]
+            [Route("GetCar2")]
+
+            public async Task<IActionResult> GetCar2([FromQuery] Car myCar)
+                {
+               var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name && x.Category == myCar.Category && x.Price == myCar.Price);
+
+                if (car == null)
+                {
+                    return NotFound();
+                }
+                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+
 
                 return Ok(car);
             }

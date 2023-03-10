@@ -1,6 +1,6 @@
 import { Car } from './../../Models/Car.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/Environments/myEnvironment';
 
@@ -21,6 +21,13 @@ export class CarsService {
   GetSingleCar(id: number): Observable<Car> {
     return this.http.get<Car>(environment.ServerUrl + '/api/Car/' + id);
   }
+  GetSingleCar2(Car:Car): Observable<Car> {
+    let params = new HttpParams()
+      .set('Name', Car.name)
+      .set('Category', Car.category)
+      .set('Price', Car.price.toString());
+    return this.http.get<Car>(environment.ServerUrl + '/api/Car/GetCar2', {params: params});
+  }
 
   GetImage(id: number) {
     return this.http.get(environment.ServerUrl + '/api/Car/image/' + id, {
@@ -28,11 +35,15 @@ export class CarsService {
     });
   }
 
-  PostBuyOne(boughtCar:Car) : Observable<Car>{
+  PostNewCar(NewCar:Car) : Observable<Car>{
+    return this.http.post<Car>(environment.ServerUrl + '/api/Car/',NewCar);
+  }
+
+  PutBuyOne(boughtCar:Car) : Observable<Car>{
     return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + boughtCar.id,boughtCar);
   }
 
-  PostUpdateCar(UpdatedCar:Car) : Observable<Car>{
+  PutUpdateCar(UpdatedCar:Car) : Observable<Car>{
     return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + UpdatedCar.id,UpdatedCar);
   }
 

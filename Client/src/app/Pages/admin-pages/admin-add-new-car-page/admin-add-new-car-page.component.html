@@ -1,1 +1,80 @@
-<p>admin-add-new-car-page works!</p>
+<div id="id1" class="container-flex mt-5">
+    <div id="id2" class="container-xxl mt-5">
+      <form #form="ngForm" (ngSubmit)="newCar()">
+        <div class="m-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            [(ngModel)]="car.name"
+            name="name"
+            type="text"
+            id="name"
+            class="form-control"
+            aria-describedby="NameHelpBlock"
+          />
+          <div id="NameHelpBlock" class="form-text">Max 30 Character</div>
+        </div>
+        <div class="m-3">
+          <label for="category" class="form-label">Category</label>
+          <select
+            id="category"
+            name="category"
+            class="form-select form-select-sm"
+            aria-label=".form-select-sm example"
+            [(ngModel)]="car.category"
+          >
+            <option value="Family">Family</option>
+            <option value="Mini">Mini</option>
+            <option value="Truck">Truck</option>
+            <option value="Luxury">Luxury</option>
+            <option value="Sports">Sports</option>
+            <option value="SUV">SUV</option>
+          </select>
+        </div>
+        <div class="m-3">
+          <label for="price" class="form-label">Price</label>
+          <input
+            [(ngModel)]="car.price"
+            name="price"
+            type="number"
+            id="price"
+            class="form-control"
+            aria-describedby="PriceHelpBlock"
+          />
+          <div id="PriceHelpBlock" class="form-text">
+            Number between 1-9999999
+          </div>
+        </div>
+        <div class="m-3">
+          <label for="unitsInStock" class="form-label">Units In Stock</label>
+          <input
+            [(ngModel)]="car.unitsInStock"
+            name="unitsInStock"
+            type="number"
+            id="unitsInStock"
+            class="form-control"
+            aria-describedby="UnitsInStockHelpBlock"
+          />
+          <div id="UnitsInStockHelpBlock" class="form-text">Max Units: 1000</div>
+        </div>
+        <div class="m-3">
+          <label for="modelYear" class="form-label">Model Year</label>
+          <input
+            [(ngModel)]="car.modelYear"
+            name="modelYear"
+            type="number"
+            id="modelYear"
+            class="form-control"
+            aria-describedby="ModelYearHelpBlock"
+          />
+          <div id="ModelYearHelpBlock" class="form-text">
+            Number Between 1000-9999
+          </div>
+        </div>
+        <button  type="submit" class="btn btn-primary m-5">Submit</button>
+      </form>
+      <div class="m-3">
+        <upload-image *ngIf="ShowImageButton==true" [imageId]="carId"></upload-image>
+      </div>
+    </div>
+  </div>
+  
