@@ -42,12 +42,12 @@
         [formControl]="searchQuery"
         class="form-control me-2"
         type="search"
+        [value]="searchError ? searchResult : searchQuery.value"
         placeholder="Search For A Car Name"
+        [ngClass]="{'input-error': searchError}"
         aria-label="Search"
       />
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>    
   </div>
 </nav>
-<div *ngIf="searchResult">Car found! Id: {{ searchResult }}</div>
-<div *ngIf="searchError">Error: {{ searchError }}</div>

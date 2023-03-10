@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   searchQuery = new FormControl('');
-  searchResult: number | undefined;
-  searchError: string | undefined;
+  searchResult: string | undefined;
+  searchError: boolean | undefined;
 
   constructor(private carsService: CarsService,private router:Router) {}
 
@@ -36,14 +36,16 @@ export class NavbarComponent implements OnInit {
   search() {
     this.carsService.GetCarIdUsingName(this.searchQuery.value!).subscribe({
       next: (carId) => {
-        this.searchResult = carId;
         this.searchError = undefined;
         this.router.navigate(['/Cars/id/'+carId]);
       },
       error: (err) => {
-        this.searchResult = undefined;
         this.searchError = err.message;
+        this.searchResult = 'Not found';
         console.log(err);
+        setTimeout(() => {
+          this.searchError = false;
+        }, 2000);
       },
     });
   }
