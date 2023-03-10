@@ -32,6 +32,21 @@ namespace Server.Services
             }
         }
 
+        public class ImageNotFoundException : ExceptionHandler
+        {
+
+            public ImageNotFoundException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "ImageNotFoundException";
+                _Description = "This Image Doesnt Exist.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
         public static void HandleException(Exception ex)
         {
             Console.WriteLine("An exception occurred:");
