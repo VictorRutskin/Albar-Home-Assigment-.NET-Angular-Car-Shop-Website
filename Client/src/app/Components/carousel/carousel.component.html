@@ -3,7 +3,7 @@
     <h1>Recommended</h1>
     <ngb-carousel id="carouselExampleDark" class="carousel carousel-primary slide" [pauseOnHover]="true" [keyboard]="true" [interval]="4000">
       <ng-template ngbSlide *ngFor="let car of cars">
-        <a routerLink="/Cars/{{car.id}}">
+        <a routerLink="/Cars/id/{{car.id}}">
         <img [src]="car.imageSrc | safeResourceUrl"  alt="No image loaded">
       </a>
         <div class="carousel-caption">

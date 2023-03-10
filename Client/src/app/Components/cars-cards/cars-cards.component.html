@@ -2,7 +2,7 @@
   <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="cars">
     <div class="col" *ngFor="let car of filteredCars">
       <div class="card">
-        <a routerLink="/Cars/{{ car.id }}">
+        <a routerLink="/Cars/id/{{ car.id }}">
           <img
             [src]="car.imageSrc | safeResourceUrl"
             class="card-img-top"
@@ -17,7 +17,7 @@
         </div>
         <button
           *ngIf="userAgent == 'Visitor'  && filterId==0"
-          routerLink="/Cars/{{ car.id }}"
+          routerLink="/Cars/id/{{ car.id }}"
           type="button"
           class="btn btn-dark"
         >

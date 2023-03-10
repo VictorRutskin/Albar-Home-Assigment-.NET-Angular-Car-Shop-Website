@@ -21,6 +21,7 @@ import { AdminPageComponent } from './Pages/admin-pages/admin-page/admin-page.co
 import { AdminSingleCarEditPageComponent } from './Pages/admin-pages/admin-single-car-edit-page/admin-single-car-edit-page.component';
 import { AdminAddNewCarPageComponent } from './Pages/admin-pages/admin-add-new-car-page/admin-add-new-car-page.component';
 import { AdminManageExistingCarsPageComponent } from './Pages/admin-pages/admin-manage-existing-cars-page/admin-manage-existing-cars-page.component';
+import { ReactiveFormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { AdminManageExistingCarsPageComponent } from './Pages/admin-pages/admin-
     FormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    NgbCarouselModule
+    NgbCarouselModule,
+    ReactiveFormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

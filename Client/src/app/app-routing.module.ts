@@ -47,7 +47,7 @@ const routes: Routes = [
     component: SuccessfullPurchasePageComponent,
   },
   {
-    path: 'Cars/:id',
+    path: 'Cars/id/:id',
     component: SingleCarPageComponent,
   },
 ];

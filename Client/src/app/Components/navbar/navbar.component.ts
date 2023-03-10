@@ -1,4 +1,7 @@
+import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { CarsService } from 'src/app/Services/Cars/cars.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'navbar',
@@ -6,6 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  searchQuery = new FormControl('');
+  searchResult: number | undefined;
+  searchError: string | undefined;
+
+  constructor(private carsService: CarsService,private router:Router) {}
 
   // This Func Gets Urlpath, find matching link to router attribute, and then adds active to it
   ngOnInit(): void {
@@ -18,5 +26,25 @@ export class NavbarComponent implements OnInit {
     if (link) {
       link.classList.add('active');
     }
+
+    this.searchQuery.valueChanges.subscribe((value) => {
+      console.log(value); // prints the current value of the input field
+    });
+    
+  }
+
+  search() {
+    this.carsService.GetCarIdUsingName(this.searchQuery.value!).subscribe({
+      next: (carId) => {
+        this.searchResult = carId;
+        this.searchError = undefined;
+        this.router.navigate(['/Cars/id/'+carId]);
+      },
+      error: (err) => {
+        this.searchResult = undefined;
+        this.searchError = err.message;
+        console.log(err);
+      },
+    });
   }
 }

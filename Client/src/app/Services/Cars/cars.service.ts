@@ -35,6 +35,10 @@ export class CarsService {
     });
   }
 
+  GetCarIdUsingName(searchString:string) {
+    return this.http.get<number>(environment.ServerUrl +'/api/Car/GetCarWithName?name='+searchString)
+  }
+
   PostNewCar(NewCar:Car) : Observable<Car>{
     return this.http.post<Car>(environment.ServerUrl + '/api/Car/',NewCar);
   }

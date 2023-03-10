@@ -21,16 +21,33 @@
             Buy Now
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" routerLink="Cars/Family">Family</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="Cars/Family">Family</a>
+            </li>
             <li><a class="dropdown-item" routerLink="Cars/Mini">Mini</a></li>
             <li><a class="dropdown-item" routerLink="Cars/Truck">Truck</a></li>
-            <li><a class="dropdown-item" routerLink="Cars/Luxury">Luxury</a></li>
-            <li><a class="dropdown-item" routerLink="Cars/Sports">Sports</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="Cars/Luxury">Luxury</a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="Cars/Sports">Sports</a>
+            </li>
             <li><a class="dropdown-item" routerLink="Cars/SUV">SUV</a></li>
-
           </ul>
         </li>
       </ul>
     </div>
+    <form class="d-flex" (ngSubmit)="search()">
+      <input
+        [formControl]="searchQuery"
+        class="form-control me-2"
+        type="search"
+        placeholder="Search For A Car Name"
+        aria-label="Search"
+      />
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>    
   </div>
 </nav>
+<div *ngIf="searchResult">Car found! Id: {{ searchResult }}</div>
+<div *ngIf="searchError">Error: {{ searchError }}</div>

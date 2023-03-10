@@ -4,6 +4,7 @@ using Microsoft.Net.Http.Headers;
 using Server.Data;
 using Server.Models;
 using Server.Services;
+using System.Web;
 using static Server.Services.ExceptionHandler;
 
 namespace Server.Controllers
@@ -129,7 +130,7 @@ namespace Server.Controllers
             return Ok(car);
         }
 
-        //  Returns a specific car using body, needed only for new car.
+        //  Returns a specific car using query, needed only for new car.
         [HttpGet]
         [Route("GetCar2")]
 
@@ -143,6 +144,22 @@ namespace Server.Controllers
             }
 
             return Ok(car);
+        }
+
+        //  Returns a car id if a car with the name exists
+        [HttpGet]
+        [Route("GetCarWithName")]
+
+        public async Task<IActionResult> GetCarWithName([FromQuery] Car myCar)
+        {
+            var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(car.Id);
         }
 
         // Returns top 3 cars with most UnitsInStock value
