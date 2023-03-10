@@ -26,8 +26,7 @@ export class AdminSingleCarEditPageComponent {
     modelYear: 0,
     imageSrc: '',
   };
-  
-  updateCar(){
+    updateCar(){
     this.carsService.PostBuyOne(this.car)
     .subscribe({
       next: (response) =>{
