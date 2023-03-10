@@ -85,13 +85,12 @@ namespace Server.Controllers
             {
                 var cars = await mydbcontext.Cars.ToListAsync();
 
-            foreach (var car in cars)
-            {
-                //car.ImageSrc = Url.Action("GetCarImage", "Cars", new { id = car.Id });
-                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() +@"\"+ car.ImageSrc!).ToString();
-            }
+                foreach (var car in cars)
+                {
+                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() +@"\"+ car.ImageSrc!).ToString();
+                }
 
-            return Ok(cars);
+                return Ok(cars);
             }
 
             // Returns a specific car
@@ -106,16 +105,9 @@ namespace Server.Controllers
                     return NotFound();
                 }
 
-                //var imageFilePath = Path.Combine("Images", "Cars", car.ImageSrc);
 
-                //if (!System.IO.File.Exists(imageFilePath))
-                //{
-                //    return NotFound();
-                //}
-
-                //var imageFile = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
-
-                //return File(imageFile, "image/jpeg");
+                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                
 
                 return Ok(car);
             }
@@ -134,39 +126,44 @@ namespace Server.Controllers
                     return NotFound();
                 }
 
+                foreach (var car in cars)
+                {
+                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                }
+
                 return Ok(cars);
             }
 
-        // Returns the car image
-        [HttpGet("image/{id}")]
-        public async Task<IActionResult> GetCarImage(long id)
-        {
-            var car = await mydbcontext.Cars.FindAsync(id);
-
-            if (car == null)
+            // Returns the car image
+            [HttpGet("image/{id}")]
+            public async Task<IActionResult> GetCarImage(long id)
             {
-                return NotFound();
+                var car = await mydbcontext.Cars.FindAsync(id);
+
+                if (car == null)
+                {
+                    return NotFound();
+                }
+
+                var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
+
+                if (!System.IO.File.Exists(imagePath))
+                {
+                    return NotFound();
+                }
+
+                var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+
+
+                return File(imageBytes, "image/jpeg");
             }
 
-            var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
-
-            if (!System.IO.File.Exists(imagePath))
-            {
-                return NotFound();
-            }
-
-            var imageBytes = System.IO.File.ReadAllBytes(imagePath);
 
 
-            return File(imageBytes, "image/jpeg");
-        }
+            //// PUT 
 
-
-
-        //// PUT 
-
-        // Updates car values
-        [HttpPut]
+            // Updates car values
+            [HttpPut]
             [Route("{id:}")]
             public async Task<IActionResult> UpdateCar([FromRoute] long id, Car UpdatedCar)
             {

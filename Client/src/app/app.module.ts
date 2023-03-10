@@ -19,6 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { UploadImageComponent } from './Components/upload-image/upload-image.component';
 import { SafeResourceUrlPipe } from './Pipes/SafeResourceUrl/safe-resource-url.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,13 +39,17 @@ import { SafeResourceUrlPipe } from './Pipes/SafeResourceUrl/safe-resource-url.p
     CarouselComponent,
     CarsCardsComponent,
     UploadImageComponent,
-    SafeResourceUrlPipe
+    SafeResourceUrlPipe,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule,
+    BrowserAnimationsModule,
+    NgbCarouselModule
     ],
   providers: [],
   bootstrap: [AppComponent]
