@@ -1,19 +1,30 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CarsService } from 'src/app/Services/Cars/cars.service';
 import { Car } from './../../Models/Car.model';
 
 @Component({
   selector: 'cars-cards',
   templateUrl: './cars-cards.component.html',
-  styleUrls: ['./cars-cards.component.scss']
+  styleUrls: ['./cars-cards.component.scss'],
 })
 export class CarsCardsComponent implements OnInit {
+  @Input() userAgent: string = 'Visitor';
+
   cars: Car[] = [];
   filteredCars: Car[] = [];
 
   //holds filter string
   @Input() filterValue: string = '';
-  constructor(private carsService: CarsService) {}
+  constructor(private carsService: CarsService, private router: Router) {}
+
+  DeleteCar(id: number) {
+    this.carsService.DeleteCar(id).subscribe({
+      next: (response) => {
+        location.reload();
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.carsService.GetAllCars().subscribe({

@@ -31,4 +31,8 @@ export class CarsService {
   PostBuyOne(boughtCar:Car) : Observable<Car>{
     return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + boughtCar.id,boughtCar);
   }
+
+  DeleteCar(id:number) : Observable<Car>{
+    return this.http.delete<Car>(environment.ServerUrl + '/api/Car/' + id);
+  }
 }

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminPageComponent } from './Pages/admin-pages/admin-page/admin-page.component';
+import { AdminSingleCarEditPageComponent } from './Pages/admin-pages/admin-single-car-edit-page/admin-single-car-edit-page.component';
 import { AllCarsPageComponent } from './Pages/cars-pages/all-cars-page/all-cars-page.component';
 import { FamilyCarsPageComponent } from './Pages/cars-pages/family-cars-page/family-cars-page.component';
 import { LuxuryCarsPageComponent } from './Pages/cars-pages/luxury-cars-page/luxury-cars-page.component';
@@ -19,6 +21,10 @@ const routes: Routes = [
   {
     path: 'Home',
     component: MainPageComponent,
+  },
+  {
+    path: 'Admin',
+    component: AdminPageComponent,
   },
   {
     path: 'Cars',
@@ -58,7 +64,7 @@ const routes: Routes = [
   },
   {
     path: 'Cars/Edit/:id',
-    component: SingleCarPageComponent,
+    component: AdminSingleCarEditPageComponent,
   },
 ];
 

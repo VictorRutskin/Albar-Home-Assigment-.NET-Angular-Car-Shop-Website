@@ -24,6 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.component';
 import { SuccessfullPurchasePageComponent } from './Pages/successfull-purchase-page/successfull-purchase-page.component';
+import { AdminPageComponent } from './Pages/admin-pages/admin-page/admin-page.component';
+import { AdminSingleCarEditPageComponent } from './Pages/admin-pages/admin-single-car-edit-page/admin-single-car-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { SuccessfullPurchasePageComponent } from './Pages/successfull-purchase-p
     SafeResourceUrlPipe,
     SingleCarPageComponent,
     SuccessfullPurchasePageComponent,
+    AdminPageComponent,
+    AdminSingleCarEditPageComponent,
     
   ],
   imports: [

@@ -1,7 +1,7 @@
 <div class="mt-5">
     <div class="container-fluid">
       <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
-      <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+      <button type="button" class="btn btn-success" (click)="file.click()">Upload Image</button>
     </div>
     <div class="col-md-4">
       <span class="upload" *ngIf="progress > 0">
