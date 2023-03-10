@@ -16,7 +16,7 @@
           <p class="card-text">{{ car.category }} | {{ car.modelYear }}</p>
         </div>
         <button
-          *ngIf="userAgent == 'Visitor'"
+          *ngIf="userAgent == 'Visitor'  && filterId==0"
           routerLink="/Cars/{{ car.id }}"
           type="button"
           class="btn btn-dark"
@@ -24,7 +24,7 @@
           Buy
         </button>
         <button
-          *ngIf="userAgent == 'Admin'"
+          *ngIf="userAgent == 'Admin' && filterId==0"
           type="button"
           class="btn btn-danger"
           (click)="DeleteCar(car.id)"
@@ -32,7 +32,7 @@
           Delete
         </button>
         <button
-          *ngIf="userAgent == 'Admin'"
+          *ngIf="userAgent == 'Admin'   && filterId==0"
           routerLink="/Cars/Edit/{{ car.id }}"
           type="button"
           class="btn btn-success"

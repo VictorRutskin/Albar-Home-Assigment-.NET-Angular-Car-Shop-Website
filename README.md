@@ -77,3 +77,6 @@ change environment angular variables to your local api blah blah
 
 
 upload button code taken from:https://code-maze.com/upload-files-dot-net-core-angular/
+
+
+safe resource copied code

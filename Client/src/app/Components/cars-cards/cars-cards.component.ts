@@ -16,6 +16,8 @@ export class CarsCardsComponent implements OnInit {
 
   //holds filter string
   @Input() filterValue: string = '';
+  @Input() filterId: number = 0;
+
   constructor(private carsService: CarsService, private router: Router) {}
 
   DeleteCar(id: number) {
@@ -41,11 +43,17 @@ export class CarsCardsComponent implements OnInit {
           });
         });
         // This checks if not all, add filter, else the filtered array will be all the cars
-        if (this.filterValue != 'All') {
+        if (this.filterValue != 'All' && this.filterValue != '') {
           this.filteredCars = this.cars.filter(
             (car) => car.category === this.filterValue
           );
-        } else {
+        }else if(this.filterId!= 0)
+        {
+          this.filteredCars = this.cars.filter(
+            (car) => car.id === this.filterId
+          );
+        }
+         else {
           this.filteredCars = this.cars;
         }
         console.log(cars);

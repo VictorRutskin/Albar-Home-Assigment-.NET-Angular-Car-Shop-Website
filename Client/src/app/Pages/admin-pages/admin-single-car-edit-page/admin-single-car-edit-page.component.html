@@ -1,95 +1,101 @@
-<div id="id1" class="container-flex mt-5" >
+<div id="id1" class="container-flex mt-5">
+    <div id="id2" class="container-xxl mt-5">
+      <form #form="ngForm" (ngSubmit)="updateCar()">
+        <div>
+          <label for="name" class="form-label">Name</label>
+          <input
+            [(ngModel)]="car.name"
+            name="name"
+            type="text"
+            id="name"
+            class="form-control"
+            aria-describedby="NameHelpBlock"
+          />
+          <div id="NameHelpBlock" class="form-text">Max 30 Character</div>
+        </div>
+        <div>
+          <label for="category" class="form-label">Category</label>
+          <input
+            [(ngModel)]="car.category"
+            name="category"
+            type="text"
+            id="category"
+            class="form-control"
+            aria-describedby="CategoryHelpBlock"
+          />
+          <select
+            class="form-select form-select-sm"
+            aria-label=".form-select-sm example"
+          >
+            <option selected>Open this select menu</option>
+            <option value="1">Family</option>
+            <option value="2">Mini</option>
+            <option value="3">Truck</option>
+            <option value="4">Luxury</option>
+            <option value="5">Sports</option>
+            <option value="6">SUV</option>
+          </select>
+        </div>
+        <div>
+          <label for="price" class="form-label">Price</label>
+          <input
+            [(ngModel)]="car.price"
+            name="price"
+            type="number"
+            id="price"
+            class="form-control"
+            aria-describedby="PriceHelpBlock"
+          />
+          <div id="PriceHelpBlock" class="form-text">
+            Number between 1-9999999
+          </div>
+        </div>
+        <div>
+          <label for="unitsInStock" class="form-label">Units In Stock</label>
+          <input
+            [(ngModel)]="car.unitsInStock"
+            name="unitsInStock"
+            type="number"
+            id="unitsInStock"
+            class="form-control"
+            aria-describedby="UnitsInStockHelpBlock"
+          />
+          <div id="UnitsInStockHelpBlock" class="form-text">Max Units: 1000</div>
+        </div>
+        <div>
+          <label for="modelYear" class="form-label">Model Year</label>
+          <input
+            [(ngModel)]="car.modelYear"
+            name="modelYear"
+            type="number"
+            id="modelYear"
+            class="form-control"
+            aria-describedby="ModelYearHelpBlock"
+          />
+          <div id="ModelYearHelpBlock" class="form-text">
+            Number Between 1000-9999
+          </div>
+        </div>
+        <div>
+          <label for="imageSrc" class="form-label">Image</label>
+          <input
+            [(ngModel)]="car.imageSrc"
+            name="imageSrc"
+            type="text"
+            id="imageSrc"
+            class="form-control"
+            aria-describedby="ImageHelpBlock"
+          />
+          <div id="ImageHelpBlock" class="form-text">hmp</div>
+        </div>
 
-<div id="id2" class="container-xxl mt-5" >
-  <div>
-    <label for="inputPassword5" class="form-label">Name</label>
-    <input
-      value="{{car.name}}"
-      type="text"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
-  </div>
-  <div>
-    <label for="inputPassword5" class="form-label">Category</label>
-    <input
-    value="{{car.category}}"
-      type="text"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
-  </div>
-  <div>
-    <label for="inputPassword5" class="form-label">Price</label>
-    <input
-    value="{{car.price}}"
-      type="text"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
-  </div>
-  <div>
-    <label for="inputPassword5" class="form-label">Units In Stock</label>
-    <input
-    value="{{car.unitsInStock}}"
-      type="number"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
-  </div>
-  <div>
-    <label for="inputPassword5" class="form-label">Model Year</label>
-    <input
-    value="{{car.modelYear}}"
-      type="number"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
-  </div>
-  <div>
-    <label for="inputPassword5" class="form-label">Image</label>
-    <input
-    value="{{car.imageSrc}}"
-      type="text"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
-    </div>
+      <upload-image></upload-image>
+      <button type="submit" class="btn btn-primary m-5">Submit</button>
+
+    </form>
   </div>
 
-  <upload-image></upload-image>
-</div>
-
-<div id="id3" class="container-xxl">
-add car card here
+  <div id="id3" class="container-xxl">
+    <cars-cards [filterId]="carId"></cars-cards>
   </div>
 </div>

@@ -32,6 +32,10 @@ export class CarsService {
     return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + boughtCar.id,boughtCar);
   }
 
+  PostUpdateCar(UpdatedCar:Car) : Observable<Car>{
+    return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + UpdatedCar.id,UpdatedCar);
+  }
+
   DeleteCar(id:number) : Observable<Car>{
     return this.http.delete<Car>(environment.ServerUrl + '/api/Car/' + id);
   }
