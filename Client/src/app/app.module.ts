@@ -22,6 +22,7 @@ import { SafeResourceUrlPipe } from './Pipes/SafeResourceUrl/safe-resource-url.p
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     CarsCardsComponent,
     UploadImageComponent,
     SafeResourceUrlPipe,
+    SingleCarPageComponent,
     
   ],
   imports: [

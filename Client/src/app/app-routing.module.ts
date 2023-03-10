@@ -8,6 +8,7 @@ import { SportsCarsPageComponent } from './Pages/cars-pages/sports-cars-page/spo
 import { SuvCarsPageComponent } from './Pages/cars-pages/suv-cars-page/suv-cars-page.component';
 import { TruckCarsPageComponent } from './Pages/cars-pages/truck-cars-page/truck-cars-page.component';
 import { MainPageComponent } from './Pages/main-page/main-page.component';
+import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.component';
 
 const routes: Routes = [
   {
@@ -46,7 +47,16 @@ const routes: Routes = [
     path: 'Cars/SUV',
     component: SuvCarsPageComponent,
   },
+  {
+    path: 'Cars/:id',
+    component: SingleCarPageComponent,
+  },
+  {
+    path: 'Cars/Edit/:id',
+    component: SingleCarPageComponent,
+  },
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

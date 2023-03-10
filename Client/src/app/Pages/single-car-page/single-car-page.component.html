@@ -1,0 +1,18 @@
+<div class="container-xxl mt-5">
+  <div class="card bg-dark text-white m-5">
+    <img [src]="car.imageSrc | safeResourceUrl" class="card-img" alt="..." />
+    <div class="card-img-overlay">
+      <h1 class="card-title">{{ car.name }}</h1>
+      <h2 class="card-text">{{ car.category }}</h2>
+      <h3 class="card-text">{{ car.price }}$</h3>
+      <h5 class="card-text">Model year: {{ car.modelYear }}</h5>
+      <h6 class="card-text">Units In Stock: {{ car.unitsInStock }}</h6>
+      <h6 class="card-text">Id: {{ car.id }}</h6>
+    </div>
+  </div>
+  <div class="d-grid gap-2">
+    <button (click)="PostBuyOne()" class="btn btn-secondary" type="button">
+      Buy
+    </button>
+  </div>
+</div>

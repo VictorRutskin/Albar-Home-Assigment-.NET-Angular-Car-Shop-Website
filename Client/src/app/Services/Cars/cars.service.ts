@@ -18,8 +18,17 @@ export class CarsService {
     return this.http.get<Car[]>(environment.ServerUrl + '/api/Car/Top3');
   }
 
-  GetImage(id : number) {
-    return this.http.get(environment.ServerUrl + '/api/Car/image/'+id, { responseType: 'blob' });
+  GetSingleCar(id: number): Observable<Car> {
+    return this.http.get<Car>(environment.ServerUrl + '/api/Car/' + id);
   }
-  
+
+  GetImage(id: number) {
+    return this.http.get(environment.ServerUrl + '/api/Car/image/' + id, {
+      responseType: 'blob',
+    });
+  }
+
+  PostBuyOne(boughtCar:Car) : Observable<Car>{
+    return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + boughtCar.id,boughtCar);
+  }
 }
