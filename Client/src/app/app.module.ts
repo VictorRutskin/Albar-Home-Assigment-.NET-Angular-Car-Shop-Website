@@ -26,6 +26,8 @@ import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.
 import { SuccessfullPurchasePageComponent } from './Pages/successfull-purchase-page/successfull-purchase-page.component';
 import { AdminPageComponent } from './Pages/admin-pages/admin-page/admin-page.component';
 import { AdminSingleCarEditPageComponent } from './Pages/admin-pages/admin-single-car-edit-page/admin-single-car-edit-page.component';
+import { AdminAddNewCarPageComponent } from './Pages/admin-pages/admin-add-new-car-page/admin-add-new-car-page.component';
+import { AdminManageExistingCarsPageComponent } from './Pages/admin-pages/admin-manage-existing-cars-page/admin-manage-existing-cars-page.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { AdminSingleCarEditPageComponent } from './Pages/admin-pages/admin-singl
     SuccessfullPurchasePageComponent,
     AdminPageComponent,
     AdminSingleCarEditPageComponent,
+    AdminAddNewCarPageComponent,
+    AdminManageExistingCarsPageComponent,
     
   ],
   imports: [

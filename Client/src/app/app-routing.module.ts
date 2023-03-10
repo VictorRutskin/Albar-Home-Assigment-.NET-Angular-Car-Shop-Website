@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminAddNewCarPageComponent } from './Pages/admin-pages/admin-add-new-car-page/admin-add-new-car-page.component';
+import { AdminManageExistingCarsPageComponent } from './Pages/admin-pages/admin-manage-existing-cars-page/admin-manage-existing-cars-page.component';
 import { AdminPageComponent } from './Pages/admin-pages/admin-page/admin-page.component';
 import { AdminSingleCarEditPageComponent } from './Pages/admin-pages/admin-single-car-edit-page/admin-single-car-edit-page.component';
 import { AllCarsPageComponent } from './Pages/cars-pages/all-cars-page/all-cars-page.component';
@@ -25,6 +27,18 @@ const routes: Routes = [
   {
     path: 'Admin',
     component: AdminPageComponent,
+  },
+  {
+    path: 'Admin/Manage',
+    component: AdminManageExistingCarsPageComponent,
+  },
+  {
+    path: 'Admin/Add',
+    component: AdminAddNewCarPageComponent,
+  },
+  {
+    path: 'Admin/Edit/:id',
+    component: AdminSingleCarEditPageComponent,
   },
   {
     path: 'Cars',
@@ -61,10 +75,6 @@ const routes: Routes = [
   {
     path: 'Cars/:id',
     component: SingleCarPageComponent,
-  },
-  {
-    path: 'Cars/Edit/:id',
-    component: AdminSingleCarEditPageComponent,
   },
 ];
 
