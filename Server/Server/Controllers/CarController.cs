@@ -141,17 +141,6 @@ namespace Server.Controllers
             {
                 return NotFound();
             }
-            //try
-            //{
-
-            //    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
-            //}
-            //catch (ImageNotFoundException imagenotfoundexception)
-            //{
-            //    car.ImageSrc = null;
-            //}
-
-
 
             return Ok(car);
         }
@@ -245,6 +234,21 @@ namespace Server.Controllers
             }
             mydbcontext.Cars.Remove(car);
             await mydbcontext.SaveChangesAsync();
+
+            try
+            {
+                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+
+            }
+            catch (Exception ex) 
+            {
+                //No image to delete so just continue
+                return Ok(car);
+            }
 
             return Ok(car);
         }
