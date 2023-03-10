@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CarsService } from 'src/app/Services/Cars/cars.service';
 import { Car } from './../../Models/Car.model';
 
@@ -15,10 +15,14 @@ export class CarsCardsComponent implements OnInit {
   filteredCars: Car[] = [];
 
   //holds filter string
-  @Input() filterValue: string = '';
+  filterValue: string = '';
   @Input() filterId: number = 0;
 
-  constructor(private carsService: CarsService, private router: Router) {}
+  constructor(
+    private carsService: CarsService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   DeleteCar(id: number) {
     this.carsService.DeleteCar(id).subscribe({
@@ -29,6 +33,12 @@ export class CarsCardsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Read the filter parameter from the URL
+     this.filterValue = this.route.snapshot.paramMap.get('filter') as string;
+    if(this.filterValue==null)
+    {
+      this.filterValue='All';
+    }
     this.carsService.GetAllCars().subscribe({
       next: (cars) => {
         this.cars = cars;
@@ -43,17 +53,15 @@ export class CarsCardsComponent implements OnInit {
           });
         });
         // This checks if not all, add filter, else the filtered array will be all the cars
-        if (this.filterValue != 'All' && this.filterValue != '') {
+        if (this.filterValue != '' &&this.filterValue != 'All' ) {
           this.filteredCars = this.cars.filter(
             (car) => car.category === this.filterValue
           );
-        }else if(this.filterId!= 0)
-        {
+        } else if (this.filterId != 0) {
           this.filteredCars = this.cars.filter(
             (car) => car.id === this.filterId
           );
-        }
-         else {
+        } else {
           this.filteredCars = this.cars;
         }
         console.log(cars);
