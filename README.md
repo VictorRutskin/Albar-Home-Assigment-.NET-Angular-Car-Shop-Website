@@ -1,7 +1,7 @@
 # Car-Shop-Website
  
 ## Configuration
-### Server
+### Asp.Net Core Web API
 - Go To `ConfiguredValues.cs`.
 - Change the values to your local ports, `GetClient` will be Angulars Default port and `GetServer` will be the server default port.
 - Change servername from DESKTOP-OJ4FU91\\VICTORSERVER to your local mssql server name, in `appsettings.json`.
@@ -55,10 +55,6 @@ VALUES ('Shlomi Mendel', 'HappyDuck300', '2022-01-01 12:00:00');
 INSERT INTO Users (Name, Password, LastLogin)
 VALUES ('Victor Rutskin', 'BigBruhMomentPerformer', '2022-01-03 18:30:00');
 ```
-
-
-
-things to do to check:
 
 ## Technologies I've Used for the Project
 - ASP.Net core 6 Web Api.
