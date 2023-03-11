@@ -7,4 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent  {
 
+
+  logOut(){
+    localStorage.removeItem("jwt");
+  }
 }
