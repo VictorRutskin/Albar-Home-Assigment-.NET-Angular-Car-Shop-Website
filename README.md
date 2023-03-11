@@ -2,26 +2,21 @@
  
 ## Configuration
 ### Server
-- Go To ConfiguredValues.cs.
-- Change the values to your local ports, GetClient will be Angulars Default port and GetServer will be the server default port.
+- Go To `ConfiguredValues.cs`.
+- Change the values to your local ports, `GetClient` will be Angulars Default port and `GetServer` will be the server default port.
+- Change servername from DESKTOP-OJ4FU91\\VICTORSERVER to your local mssql server name, in `appsettings.json`.
+- Go to tools in VS studio > nuget package manager > package manager console > write: `Update-Database`
 
 ### Angular
-- Blah blah blah
+- Go To `myEnvironment.ts`.
+- Change the `ServerUrl` to your server default port.
+
 
 ### MSSQL
-- change servername from DESKTOP-OJ4FU91\\VICTORSERVER to youre local mssql server name ,in appsettings.json
-...
+- Execute the next query scripts in your new created database:
 
-
-things to do to check:
-
-change servername from DESKTOP-OJ4FU91\\VICTORSERVER to youre local mssql server name ,in appsettings.json
-
-to create the DB: go to tools in VS studio>nuget package manager>package manager console>write: "Update-Database"
-
-to add the cars and user to the database execute the next query:
-
-Cars:
+#### Cars:
+```
 INSERT INTO Cars (Name, Category, Price, UnitsInStock, ModelYear, ImageSrc)
 VALUES ('Toyota Camry', 'Family', 25000.00, 10, 2022,'Car-1.jpg');
 
@@ -51,21 +46,25 @@ VALUES ('Mercedes-Benz S-Class', 'Luxury', 90000.00, 1, 2022 ,'Car-9.jpg');
 
 INSERT INTO Cars (Name, Category, Price, UnitsInStock, ModelYear, ImageSrc)
 VALUES ('Lamborghini Huracan', 'Sports', 300000.00, 1, 2022 ,'Car-10.jpg');
-
-Users:
-
+```
+#### Users:
+```
 INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Shlomi Mendel', 'HappyDuckFeet300', '2022-01-01 12:00:00');
+VALUES ('Shlomi Mendel', 'HappyDuck300', '2022-01-01 12:00:00');
 
 INSERT INTO Users (Name, Password, LastLogin)
 VALUES ('Victor Rutskin', 'BigBruhMomentPerformer', '2022-01-03 18:30:00');
+```
 
 
 
-change environment angular variables to your local api blah blah
+things to do to check:
 
+## Technologies I've Used for the Project
+- ASP.Net core 6 Web Api.
+- Angular 15.
+- Bootstrap 5.
+- Microsoft SQL Server.
 
-upload button code taken from:https://code-maze.com/upload-files-dot-net-core-angular/
-
-
-safe resource copied code
+## Code I've used for my project
+- Angular Image Upload Button: `https://code-maze.com/upload-files-dot-net-core-angular/`.
