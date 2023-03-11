@@ -10,7 +10,7 @@ namespace Server.Models
         public string? Name { get; set; }
 
         [RegularExpression("^(Family|Mini|Truck|Luxury|Sports|SUV)$", ErrorMessage = "Invalid Car category.")]
-        public string? Category { get; set; } // 1.Family 2.Mini 3.Truck 4.Luxury 5.Sports 6.SUV
+        public string? Category { get; set; } 
 
         [Range(0, 9999999, ErrorMessage = "Car price must be between 0 and 9,999,999.")]
         public double Price { get; set; }
