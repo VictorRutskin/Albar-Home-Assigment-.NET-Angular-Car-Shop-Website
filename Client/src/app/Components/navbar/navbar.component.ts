@@ -2,6 +2,7 @@ import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CarsService } from 'src/app/Services/Cars/cars.service';
 import { Router } from '@angular/router';
+import { UsersService } from 'src/app/Services/Users/users.service';
 
 @Component({
   selector: 'navbar',
@@ -9,14 +10,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  LoggedIn: boolean = false;
   searchQuery = new FormControl('');
   searchResult: string | undefined;
   searchError: boolean | undefined;
 
-  constructor(private carsService: CarsService,private router:Router) {}
+  constructor(
+    private carsService: CarsService,
+    private router: Router,
+    private usersService: UsersService
+  ) {}
 
   // This Func Gets Urlpath, find matching link to router attribute, and then adds active to it
   ngOnInit(): void {
+    const LoggedIn = this.usersService.IsUserAuthenticated();
+
     const path: string = window.location.pathname;
 
     const link: HTMLAnchorElement | null = document.querySelector(
@@ -30,14 +38,13 @@ export class NavbarComponent implements OnInit {
     this.searchQuery.valueChanges.subscribe((value) => {
       console.log(value); // prints the current value of the input field
     });
-    
   }
 
   search() {
     this.carsService.GetCarIdUsingName(this.searchQuery.value!).subscribe({
       next: (carId) => {
         this.searchError = undefined;
-        this.router.navigate(['/Cars/id/'+carId]);
+        this.router.navigate(['/Cars/id/' + carId]);
       },
       error: (err) => {
         this.searchError = err.message;

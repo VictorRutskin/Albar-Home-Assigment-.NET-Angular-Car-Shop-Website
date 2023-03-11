@@ -39,7 +39,12 @@
           </ul>
         </li>
       </ul>
+      <div *ngIf="LoggedIn">
+        <button type="button" class="btn btn-danger">Logout</button>
+      </div>
+      <input [(ngModel)]="LoggedIn" type="hidden">
     </div>
+
     <form class="d-flex" (ngSubmit)="search()">
       <input
         [formControl]="searchQuery"

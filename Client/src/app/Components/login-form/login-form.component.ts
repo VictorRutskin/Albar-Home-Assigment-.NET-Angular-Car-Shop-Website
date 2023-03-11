@@ -1,4 +1,3 @@
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './../../Models/User.model';
 import { UsersService } from './../../Services/Users/users.service';
 import { Router } from '@angular/router';
@@ -16,16 +15,10 @@ export class LoginFormComponent {
   constructor(
     private router: Router,
     private usersService: UsersService,
-    private jwtHelper: JwtHelperService
   ) {}
 
-  isUserAuthenticated() {
-    const token = localStorage.getItem('jwt');
-
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    return false;
+ public UserAuthenticated() {
+  this.usersService.IsUserAuthenticated();
   }
 
   myUser: User = {

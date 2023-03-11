@@ -33,7 +33,7 @@ namespace Server.Controllers
 
         // Adds a car with specific values
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> AddCar([FromBody] Car car)
         {
             // Validate the car object
@@ -62,7 +62,7 @@ namespace Server.Controllers
 
         // Uploading Car Image
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         [Route("Image")]
         public async Task<IActionResult> UploadCarImage()
         {
@@ -263,8 +263,7 @@ namespace Server.Controllers
 
         // Deletes a car using id
         [HttpDelete]
-        [Authorize]
-
+        //[Authorize]
         [Route("{id:}")]
         public async Task<IActionResult> DeleteCar([FromRoute] long id)
         {

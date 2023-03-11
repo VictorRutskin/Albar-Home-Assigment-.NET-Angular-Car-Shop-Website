@@ -8,7 +8,12 @@
         <label for="name" class="form-label">Name</label>
         <input
           [(ngModel)]="car.name"
-          [ngClass]="{ 'input-invalid': !validateField('name'), 'input-valid': validateField('name'), 'input-empty': !formData.name }"          (blur)="updateform()"
+          [ngClass]="{
+            'input-invalid': !validateField('name'),
+            'input-valid': validateField('name'),
+            'input-empty': !formData.name
+          }"
+          (blur)="updateform()"
           name="name"
           type="text"
           id="name"
@@ -50,7 +55,7 @@
           required
         />
         <div id="PriceHelpBlock" class="form-text">
-          Number between 1-9999999
+          Number between 0-9999999
         </div>
       </div>
       <div class="m-3">
