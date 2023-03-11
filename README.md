@@ -1,5 +1,18 @@
 # Car-Shop-Website
  
+## Configuration
+### Server
+- Go To ConfiguredValues.cs.
+- Change the values to your local ports, GetClient will be Angulars Default port and GetServer will be the server default port.
+
+### Angular
+- Blah blah blah
+
+### MSSQL
+- change servername from DESKTOP-OJ4FU91\\VICTORSERVER to youre local mssql server name ,in appsettings.json
+...
+
+
 things to do to check:
 
 change servername from DESKTOP-OJ4FU91\\VICTORSERVER to youre local mssql server name ,in appsettings.json
