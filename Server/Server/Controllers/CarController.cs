@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Server.Data;
@@ -32,6 +33,7 @@ namespace Server.Controllers
 
         // Adds a car with specific values
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddCar([FromBody] Car car)
         {
             // If car with the name exist do not add.
@@ -54,6 +56,7 @@ namespace Server.Controllers
 
         // Uploading Car Image
         [HttpPost]
+        [Authorize]
         [Route("Image")]
         public async Task<IActionResult> UploadCarImage()
         {
@@ -240,6 +243,8 @@ namespace Server.Controllers
 
         // Deletes a car using id
         [HttpDelete]
+        [Authorize]
+
         [Route("{id:}")]
         public async Task<IActionResult> DeleteCar([FromRoute] long id)
         {

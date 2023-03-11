@@ -1,9 +1,16 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Server.Data;
+using YourWebApiNamespace;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Using startup file
+var startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services); 
 
 // Removing request size limit
 builder.Services.Configure<FormOptions>(o =>
@@ -24,6 +31,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnectionStri
 
 var app = builder.Build();
 
+// configuring app using startup
+startup.Configure(app, builder.Environment); 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,10 +43,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Configuring Cors, it will only allow requests from your angular local port: 4200.
-app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:7099/"));
+//// Configuring Cors, it will only allow requests from your angular local port: 4200.
+//app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:7099/"));
 
-app.UseStaticFiles();   ////// DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE??
+app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
