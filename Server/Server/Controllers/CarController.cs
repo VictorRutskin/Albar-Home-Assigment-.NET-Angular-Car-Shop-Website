@@ -188,8 +188,6 @@ namespace Server.Controllers
             foreach (var car in cars)
             {
 
-                //try
-                //{
                 string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
                 if (System.IO.File.Exists(imagePath))
                 {
@@ -199,12 +197,6 @@ namespace Server.Controllers
                 {
                     car.ImageSrc = "";
                 }
-                //}
-                //catch(ImageNotFoundException exception) 
-                //{
-                //    car.ImageSrc = null;
-                //}
-
             }
 
             return Ok(cars);
@@ -285,19 +277,11 @@ namespace Server.Controllers
             mydbcontext.Cars.Remove(car);
             await mydbcontext.SaveChangesAsync();
 
-            try
+            // If image exists delete, else dont
+            string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+            if (System.IO.File.Exists(imagePath))
             {
-                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
-                if (System.IO.File.Exists(imagePath))
-                {
-                    System.IO.File.Delete(imagePath);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //No image to delete so just continue
-                return Ok(car);
+                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
             }
 
             return Ok(car);
