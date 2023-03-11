@@ -55,6 +55,11 @@ VALUES ('Shlomi Mendel', 'HappyDuck300', '2022-01-01 12:00:00');
 INSERT INTO Users (Name, Password, LastLogin)
 VALUES ('Victor Rutskin', 'BigBruhMomentPerformer', '2022-01-03 18:30:00');
 ```
+## Running The Project
+- Make sure you've configured everything.
+- Open the Server Project and run it (it will also show you the swagger).
+- Open the Client using cmd and enter `ng serve`.
+- Enter your Angular port url in the browser, it is usually `http://localhost:4200/`.
 
 ## Technologies I've Used for the Project
 - ASP.Net core 6 Web Api.
