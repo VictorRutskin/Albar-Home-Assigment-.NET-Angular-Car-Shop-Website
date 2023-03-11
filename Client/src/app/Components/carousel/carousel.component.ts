@@ -14,7 +14,7 @@ export class CarouselComponent implements OnInit {
   ngOnInit(): void {
     this.carsService.Get3CarExtras().subscribe({
       next: (cars) => {
-        this.cars = cars;
+        // Get the car images
         cars.forEach((car) => {
           this.carsService.GetImage(car.id).subscribe({
             next: (imageData: Blob) => {
@@ -25,9 +25,10 @@ export class CarouselComponent implements OnInit {
             },
           });
         });
-        // This checks if not all, add filter, else the filtered array will be all the cars
-        console.log(cars);
-        this.isInitialized = true; // move the assignment inside the subscribe method
+        
+        // Set the cars array and initialize the component
+        this.cars = cars;
+        this.isInitialized = true;
       },
       error: (response) => {
         console.log(response);

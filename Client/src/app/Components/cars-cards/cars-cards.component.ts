@@ -34,41 +34,37 @@ export class CarsCardsComponent implements OnInit {
 
   ngOnInit(): void {
     // Read the filter parameter from the URL
-     this.filterValue = this.route.snapshot.paramMap.get('filter') as string;
-    if(this.filterValue==null)
-    {
-      this.filterValue='All';
-    }
+    this.filterValue = this.route.snapshot.paramMap.get('filter') || 'All';
+
     this.carsService.GetAllCars().subscribe({
       next: (cars) => {
         this.cars = cars;
-        cars.forEach((car) => {
-          this.carsService.GetImage(car.id).subscribe({
-            next: (imageData: Blob) => {
-              car.imageSrc = URL.createObjectURL(imageData);
-            },
-            error: (error: any) => {
-              console.error(error);
-            },
-          });
-        });
-        // This checks if not all, add filter, else the filtered array will be all the cars
-        if (this.filterValue != '' &&this.filterValue != 'All' ) {
-          this.filteredCars = this.cars.filter(
-            (car) => car.category === this.filterValue
-          );
-        } else if (this.filterId != 0) {
-          this.filteredCars = this.cars.filter(
-            (car) => car.id === this.filterId
-          );
-        } else {
-          this.filteredCars = this.cars;
-        }
+        this.loadCarImages();
+        this.filterCars();
         console.log(cars);
       },
-      error: (response) => {
-        console.log(response);
-      },
+      error: (response) => console.error(response),
     });
+  }
+
+  private loadCarImages(): void {
+    this.cars.forEach((car) => {
+      this.carsService.GetImage(car.id).subscribe({
+        next: (imageData) => (car.imageSrc = URL.createObjectURL(imageData)),
+        error: (error) => console.error(error),
+      });
+    });
+  }
+
+  private filterCars(): void {
+    if (this.filterValue !== '' && this.filterValue !== 'All') {
+      this.filteredCars = this.cars.filter(
+        (car) => car.category === this.filterValue
+      );
+    } else if (this.filterId !== 0) {
+      this.filteredCars = this.cars.filter((car) => car.id === this.filterId);
+    } else {
+      this.filteredCars = this.cars;
+    }
   }
 }

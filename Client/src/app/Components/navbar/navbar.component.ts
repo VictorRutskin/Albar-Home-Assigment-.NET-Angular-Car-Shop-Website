@@ -25,23 +25,19 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.IsUserAuthenticated();
     this.LoggedIn = this.usersService.LogStatus;
-    
-    const path: string = window.location.pathname;
+    this.setActiveLink();
+  }
 
-    const link: HTMLAnchorElement | null = document.querySelector(
-      `[routerLink="${path}"]`
-    );
-
+  // Sets link color to active
+  private setActiveLink() {
+    const path = window.location.pathname;
+    const link = document.querySelector(`[routerLink="${path}"]`);
     if (link) {
       link.classList.add('active');
     }
-
-    this.searchQuery.valueChanges.subscribe((value) => {
-      console.log(value); // prints the current value of the input field
-    });
   }
 
-  logout(){
+  logout() {
     this.usersService.LogStatus = false;
     this.usersService.LogOut();
     location.reload();

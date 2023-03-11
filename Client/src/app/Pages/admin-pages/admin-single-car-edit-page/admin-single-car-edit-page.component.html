@@ -12,7 +12,7 @@
           aria-describedby="NameHelpBlock"
           (blur)="updateCar()"
         />
-        <div id="NameHelpBlock" class="form-text">Max 30 Character</div>
+        <div id="NameHelpBlock" class="form-text">50 Characters max</div>
       </div>
       <div class="m-3">
         <label for="category" class="form-label">Category</label>
@@ -43,9 +43,7 @@
           aria-describedby="PriceHelpBlock"
           (blur)="updateCar()"
         />
-        <div id="PriceHelpBlock" class="form-text">
-          Number between 1-9999999
-        </div>
+        <div id="NameHelpBlock" class="form-text">Number between 0-9999999</div>
       </div>
       <div class="m-3">
         <label for="unitsInStock" class="form-label">Units In Stock</label>
@@ -58,7 +56,7 @@
           aria-describedby="UnitsInStockHelpBlock"
           (blur)="updateCar()"
         />
-        <div id="UnitsInStockHelpBlock" class="form-text">Max Units: 1000</div>
+        <div id="NameHelpBlock" class="form-text">Number Between 0-1000</div>
       </div>
       <div class="m-3">
         <label for="modelYear" class="form-label">Model Year</label>
@@ -71,9 +69,7 @@
           aria-describedby="ModelYearHelpBlock"
           (blur)="updateCar()"
         />
-        <div id="ModelYearHelpBlock" class="form-text">
-          Number Between 1000-9999
-        </div>
+        <div id="NameHelpBlock" class="form-text">Number Between 1886-2023</div>
       </div>
       <div class="m-3">
         <upload-image [imageId]="carId"></upload-image>

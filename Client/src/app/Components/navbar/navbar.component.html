@@ -40,9 +40,11 @@
         </li>
       </ul>
       <div *ngIf="LoggedIn">
-        <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+        <button type="button" class="btn btn-danger" (click)="logout()">
+          Logout
+        </button>
       </div>
-      <input [(ngModel)]="LoggedIn" type="hidden">
+      <input [(ngModel)]="LoggedIn" type="hidden" />
     </div>
 
     <form class="d-flex" (ngSubmit)="search()">
@@ -52,10 +54,10 @@
         type="search"
         [value]="searchError ? searchResult : searchQuery.value"
         placeholder="Search For A Car Name"
-        [ngClass]="{'input-error': searchError}"
+        [ngClass]="{ 'input-error': searchError }"
         aria-label="Search"
       />
       <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>    
+    </form>
   </div>
 </nav>

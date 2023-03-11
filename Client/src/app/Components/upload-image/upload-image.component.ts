@@ -25,7 +25,7 @@ export class UploadImageComponent implements OnInit {
     }
     let fileToUpload = <File>files[0];
     const formData = new FormData();
-    formData.append('file', fileToUpload, 'Car-' + id+'.jpg');
+    formData.append('file', fileToUpload, 'Car-' + id + '.jpg');
 
     this.http
       .post(environment.ServerUrl + '/api/Car/Image', formData, {

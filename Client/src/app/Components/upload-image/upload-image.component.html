@@ -1,14 +1,20 @@
 <div class="mt-5">
-    <div class="container-fluid">
-      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files,imageId)" style="display:none;">
-      <button type="button" class="btn btn-success" (click)="file.click()">Image</button>
-    </div>
-    <div class="col-md-4">
-      <span class="upload" *ngIf="progress > 0">
-        {{progress}}%
-      </span>
-      <span class="upload" *ngIf="message">
-        {{message}}
-      </span>
-    </div>
+  <div class="container-fluid">
+    <input
+      type="file"
+      #file
+      placeholder="Choose file"
+      (change)="uploadFile(file.files, imageId)"
+      style="display: none"
+    />
+    <button type="button" class="btn btn-success" (click)="file.click()">
+      Image
+    </button>
   </div>
+  <div class="col-md-4">
+    <span class="upload" *ngIf="progress > 0"> {{ progress }}% </span>
+    <span class="upload" *ngIf="message">
+      {{ message }}
+    </span>
+  </div>
+</div>

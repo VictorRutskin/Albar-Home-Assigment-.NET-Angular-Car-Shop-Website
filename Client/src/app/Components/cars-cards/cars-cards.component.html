@@ -16,7 +16,7 @@
           <p class="card-text">{{ car.category }} | {{ car.modelYear }}</p>
         </div>
         <button
-          *ngIf="userAgent == 'Visitor'  && filterId==0"
+          *ngIf="userAgent == 'Visitor' && filterId == 0"
           routerLink="/Cars/id/{{ car.id }}"
           type="button"
           class="btn btn-dark"
@@ -24,7 +24,7 @@
           Buy
         </button>
         <button
-          *ngIf="userAgent == 'Admin' && filterId==0"
+          *ngIf="userAgent == 'Admin' && filterId == 0"
           type="button"
           class="btn btn-danger"
           (click)="DeleteCar(car.id)"
@@ -32,7 +32,7 @@
           Delete
         </button>
         <button
-          *ngIf="userAgent == 'Admin'   && filterId==0"
+          *ngIf="userAgent == 'Admin' && filterId == 0"
           routerLink="/Admin/Edit/{{ car.id }}"
           type="button"
           class="btn btn-success"
@@ -42,8 +42,8 @@
       </div>
     </div>
   </div>
-  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="filteredCars.length<1">
-    <h1>No Cars In This Category: {{filterValue}}</h1>
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="filteredCars.length < 1">
+    <h1>No Cars In This Category: {{ filterValue }}</h1>
   </div>
   <p *ngIf="cars.length === 0">Error</p>
 </div>

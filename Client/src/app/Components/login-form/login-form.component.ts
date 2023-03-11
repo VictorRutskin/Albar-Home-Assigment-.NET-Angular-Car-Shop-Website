@@ -12,21 +12,6 @@ import { NgForm } from '@angular/forms';
 export class LoginFormComponent {
   invalidLogin: boolean = false;
   LoggedIn: boolean = false;
-  // For Local Creds Saving
-
-  constructor(
-    private router: Router,
-    private usersService: UsersService,
-  ) {}
-
-  ngOnInit(): void {
-    this.usersService.IsUserAuthenticated();
-    this.LoggedIn = this.usersService.LogStatus;
-  }
- public UserAuthenticated() {
-  this.usersService.IsUserAuthenticated();
-  }
-
   myUser: User = {
     name: '',
     id: 0,
@@ -34,15 +19,26 @@ export class LoginFormComponent {
     lastLogin: '',
   };
 
+  // For Local Creds Saving
+  constructor(private router: Router, private usersService: UsersService) {}
+
+  ngOnInit(): void {
+    this.usersService.IsUserAuthenticated();
+    this.LoggedIn = this.usersService.LogStatus;
+  }
+  public UserAuthenticated() {
+    this.usersService.IsUserAuthenticated();
+  }
+
   async login(form: NgForm) {
     const credentials = {
       name: form.value.name,
       password: form.value.password,
     };
-  
+
     this.myUser.name = credentials.name;
     this.myUser.password = credentials.password;
-    
+
     await this.usersService.PostLogin(credentials).subscribe(
       (response) => {
         const token = (<any>response).token;
@@ -58,4 +54,4 @@ export class LoginFormComponent {
       }
     );
   }
-}  
+}
