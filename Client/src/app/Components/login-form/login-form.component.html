@@ -1,3 +1,5 @@
+<div class="container-xxl mt-5">
+<div *ngIf="!LoggedIn">
 <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
   <div class="container-xxl mt-5">
     <h2 class="form-signin-heading">Login</h2>
@@ -35,3 +37,8 @@
     <button class="btn btn-dark" type="submit">Login</button>
   </div>
 </form>
+</div>
+<div *ngIf="LoggedIn">
+    <h1>You are already logged in ! </h1>
+</div>
+</div>

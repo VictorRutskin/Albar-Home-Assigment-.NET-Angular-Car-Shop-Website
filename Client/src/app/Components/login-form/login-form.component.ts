@@ -11,12 +11,18 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginFormComponent {
   invalidLogin: boolean = false;
+  LoggedIn: boolean = false;
+  // For Local Creds Saving
 
   constructor(
     private router: Router,
     private usersService: UsersService,
   ) {}
 
+  ngOnInit(): void {
+    this.usersService.IsUserAuthenticated();
+    this.LoggedIn = this.usersService.LogStatus;
+  }
  public UserAuthenticated() {
   this.usersService.IsUserAuthenticated();
   }
@@ -33,20 +39,23 @@ export class LoginFormComponent {
       name: form.value.name,
       password: form.value.password,
     };
-
+  
     this.myUser.name = credentials.name;
     this.myUser.password = credentials.password;
-
+    
     this.usersService.PostLogin(credentials).subscribe(
       (response) => {
         const token = (<any>response).token;
         localStorage.setItem('jwt', token);
         this.invalidLogin = false;
-        this.router.navigate(['/']);
+        if (this.usersService.IsUserAuthenticated()) {
+          this.usersService.LogStatus = true;
+        }
+        location.reload();
       },
       (err) => {
         this.invalidLogin = true;
       }
     );
   }
-}
+}  

@@ -40,7 +40,7 @@
         </li>
       </ul>
       <div *ngIf="LoggedIn">
-        <button type="button" class="btn btn-danger">Logout</button>
+        <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
       </div>
       <input [(ngModel)]="LoggedIn" type="hidden">
     </div>

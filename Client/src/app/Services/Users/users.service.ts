@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class UsersService {
+  LogStatus:boolean = false;
 
   constructor(private http: HttpClient,private jwtHelper: JwtHelperService) { }
 
@@ -19,13 +20,20 @@ export class UsersService {
     return this.http.post<Credentials>(environment.ServerUrl+"/api/User/Login", credentials, { responseType: 'json' });
   }
 
+  LogOut(){
+    localStorage.removeItem('jwt'); // Remove the JWT token from storage
+    this.LogStatus = false; // Update the LoggedIn flag
+  }
+
   IsUserAuthenticated() {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
+      this.LogStatus=true
+      return this.LogStatus;
     }
-    return false;
+    this.LogStatus = false;
+    return this.LogStatus;
   }
   
 

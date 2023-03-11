@@ -23,8 +23,9 @@ export class NavbarComponent implements OnInit {
 
   // This Func Gets Urlpath, find matching link to router attribute, and then adds active to it
   ngOnInit(): void {
-    const LoggedIn = this.usersService.IsUserAuthenticated();
-
+    this.usersService.IsUserAuthenticated();
+    this.LoggedIn = this.usersService.LogStatus;
+    
     const path: string = window.location.pathname;
 
     const link: HTMLAnchorElement | null = document.querySelector(
@@ -38,6 +39,12 @@ export class NavbarComponent implements OnInit {
     this.searchQuery.valueChanges.subscribe((value) => {
       console.log(value); // prints the current value of the input field
     });
+  }
+
+  logout(){
+    this.usersService.LogStatus = false;
+    this.usersService.LogOut();
+    location.reload();
   }
 
   search() {
