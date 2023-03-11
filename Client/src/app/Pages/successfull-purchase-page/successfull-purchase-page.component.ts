@@ -6,55 +6,54 @@ import { CarsService } from 'src/app/Services/Cars/cars.service';
 @Component({
   selector: 'app-successfull-purchase-page',
   templateUrl: './successfull-purchase-page.component.html',
-  styleUrls: ['./successfull-purchase-page.component.scss']
+  styleUrls: ['./successfull-purchase-page.component.scss'],
 })
 export class SuccessfullPurchasePageComponent {
-//redirect here, show message, await 5 seconds, redirect to main
-constructor(
-  private route: ActivatedRoute,
-  private carsService: CarsService,
-  private router:Router,
-) {}
+  //redirect here, show message, await 5 seconds, redirect to main
+  constructor(
+    private route: ActivatedRoute,
+    private carsService: CarsService,
+    private router: Router
+  ) {}
 
-carId: number = 0;
+  carId: number = 0;
 
-car: Car = {
-  id: 0,
-  name: '',
-  category: '',
-  price: 0,
-  unitsInStock: 0,
-  modelYear: 0,
-  imageSrc: '',
-};
+  car: Car = {
+    id: 0,
+    name: '',
+    category: '',
+    price: 0,
+    unitsInStock: 0,
+    modelYear: 0,
+    imageSrc: '',
+  };
 
-ngOnInit() {
-  this.route.paramMap.subscribe((params) => {
-    const idString = params.get('id');
-    if (idString) {
-      this.carId = parseInt(idString, 10); // convert string to number
-      console.log(this.carId); // log the carId to the console
-    }
-  });
+  ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      const idString = params.get('id');
+      if (idString) {
+        this.carId = parseInt(idString, 10); // convert string to number
+        console.log(this.carId); // log the carId to the console
+      }
+    });
 
-  this.carsService.GetSingleCar(this.carId).subscribe({
-    next: (car) => {
-      this.car = car;
-      this.carsService.GetImage(car.id).subscribe({
-        next: (imageData: Blob) => {
-          car.imageSrc = URL.createObjectURL(imageData);
-        },
-        error: (error: any) => {
-          console.error(error);
-        },
-      });
-    },
-  });
+    this.carsService.GetSingleCar(this.carId).subscribe({
+      next: (car) => {
+        this.car = car;
+        this.carsService.GetImage(car.id).subscribe({
+          next: (imageData: Blob) => {
+            car.imageSrc = URL.createObjectURL(imageData);
+          },
+          error: (error: any) => {
+            console.error(error);
+          },
+        });
+      },
+    });
 
-  // Waiting like 5 sec so user can read the message
-  setTimeout(() => {
-    this.router.navigate(['/']);
-  }, 5000);
-
-}
+    // Waiting 3 sec so user can read the message
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 3000);
+  }
 }

@@ -12,7 +12,7 @@ export class SingleCarPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
-    private router:Router,
+    private router: Router
   ) {}
 
   carId: number = 0;
@@ -27,15 +27,14 @@ export class SingleCarPageComponent implements OnInit {
     imageSrc: '',
   };
 
-  PostBuyOne(){
+  PostBuyOne() {
     // Bought 1
-    this.car.unitsInStock=this.car.unitsInStock-1;
+    this.car.unitsInStock = this.car.unitsInStock - 1;
 
-    this.carsService.PutBuyOne(this.car)
-    .subscribe({
-      next: (response) =>{
-        this.router.navigate(['Cars/'+this.carId+'/Success']);
-      }
+    this.carsService.PutBuyOne(this.car).subscribe({
+      next: (response) => {
+        this.router.navigate(['Cars/' + this.carId + '/Success']);
+      },
     });
   }
 

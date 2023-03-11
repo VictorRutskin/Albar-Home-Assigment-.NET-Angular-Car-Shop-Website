@@ -13,6 +13,6 @@ export class NotAuthoarizedPageComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.router.navigate(['Login']);
-    }, 5000);
+    }, 3000);
 }
 }

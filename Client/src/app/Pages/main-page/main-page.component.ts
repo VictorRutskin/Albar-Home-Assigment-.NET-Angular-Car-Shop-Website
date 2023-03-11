@@ -6,9 +6,4 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent  {
-
-
-  logOut(){
-    localStorage.removeItem("jwt");
-  }
 }
