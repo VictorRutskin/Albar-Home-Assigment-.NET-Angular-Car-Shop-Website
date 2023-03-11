@@ -1,9 +1,8 @@
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './../../Models/User.model';
 import { UsersService } from './../../Services/Users/users.service';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { environment } from 'src/app/Environments/myEnvironment';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -12,33 +11,49 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent {
-  invalidLogin:boolean = false;
+  invalidLogin: boolean = false;
 
-  constructor(private router: Router, private http: HttpClient, private usersService:UsersService) {}
-  myUser :User ={
-    name: "",
+  constructor(
+    private router: Router,
+    private usersService: UsersService,
+    private jwtHelper: JwtHelperService
+  ) {}
+
+  isUserAuthenticated() {
+    const token = localStorage.getItem('jwt');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      return true;
+    }
+    return false;
+  }
+
+  myUser: User = {
+    name: '',
     id: 0,
     password: '',
-    lastLogin: ''
-  }
+    lastLogin: '',
+  };
 
   login(form: NgForm) {
     const credentials = {
-      'name': form.value.name,
-      'password': form.value.password,
+      name: form.value.name,
+      password: form.value.password,
     };
 
-    this.myUser.name=credentials.name;
-    this.myUser.password=credentials.password;
+    this.myUser.name = credentials.name;
+    this.myUser.password = credentials.password;
 
-    this.usersService.PostLogin(credentials).subscribe((response) => {
-      const token = (<any>response).token;
-      localStorage.setItem('jwt', token);
-      this.invalidLogin = false;
-      this.router.navigate(['/']);
-    }, err =>{
-      this.invalidLogin = true;
-    }
+    this.usersService.PostLogin(credentials).subscribe(
+      (response) => {
+        const token = (<any>response).token;
+        localStorage.setItem('jwt', token);
+        this.invalidLogin = false;
+        this.router.navigate(['/']);
+      },
+      (err) => {
+        this.invalidLogin = true;
+      }
     );
   }
 }

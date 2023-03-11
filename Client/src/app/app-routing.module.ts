@@ -1,3 +1,4 @@
+import { AuthenticationGuard } from './Guards/Authentication Guard/authentication.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CarsCardsComponent } from './Components/cars-cards/cars-cards.component';
@@ -9,6 +10,7 @@ import { LoginPageComponent } from './Pages/login-page/login-page.component';
 import { MainPageComponent } from './Pages/main-page/main-page.component';
 import { SingleCarPageComponent } from './Pages/single-car-page/single-car-page.component';
 import { SuccessfullPurchasePageComponent } from './Pages/successfull-purchase-page/successfull-purchase-page.component';
+import { NotAuthoarizedPageComponent } from './Pages/not-authoarized-page/not-authoarized-page.component';
 
 const routes: Routes = [
   {
@@ -24,8 +26,12 @@ const routes: Routes = [
     component: LoginPageComponent,
   },
   {
+    path: 'NotAuthorized',
+    component: NotAuthoarizedPageComponent,
+  },
+  {
     path: 'Admin',
-    component: AdminPageComponent,
+    component: AdminPageComponent, canActivate:[AuthenticationGuard],
   },
   {
     path: 'Admin/Manage',

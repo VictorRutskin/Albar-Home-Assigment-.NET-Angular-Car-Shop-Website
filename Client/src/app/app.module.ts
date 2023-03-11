@@ -24,6 +24,13 @@ import { AdminManageExistingCarsPageComponent } from './Pages/admin-pages/admin-
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginFormComponent } from './Components/login-form/login-form.component';
 import { LoginPageComponent } from './Pages/login-page/login-page.component'; 
+import {JwtModule} from '@auth0/angular-jwt';
+import { environment } from './Environments/myEnvironment';
+import { NotAuthoarizedPageComponent } from './Pages/not-authoarized-page/not-authoarized-page.component';
+
+export function tokenGetter(){
+  return localStorage.getItem("jwt");
+}
 
 @NgModule({
   declarations: [
@@ -43,6 +50,7 @@ import { LoginPageComponent } from './Pages/login-page/login-page.component';
     AdminManageExistingCarsPageComponent,
     LoginFormComponent,
     LoginPageComponent,
+    NotAuthoarizedPageComponent,
     
   ],
   imports: [
@@ -53,7 +61,15 @@ import { LoginPageComponent } from './Pages/login-page/login-page.component';
     NgbModule,
     BrowserAnimationsModule,
     NgbCarouselModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config:{
+        //adding to any request
+        tokenGetter:tokenGetter,
+        allowedDomains:[environment.ServerUrl],
+        disallowedRoutes:[]
+      }
+    })
     ],
   providers: [],
   bootstrap: [AppComponent]
