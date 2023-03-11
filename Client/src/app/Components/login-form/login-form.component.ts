@@ -34,7 +34,7 @@ export class LoginFormComponent {
     lastLogin: '',
   };
 
-  login(form: NgForm) {
+  async login(form: NgForm) {
     const credentials = {
       name: form.value.name,
       password: form.value.password,
@@ -43,7 +43,7 @@ export class LoginFormComponent {
     this.myUser.name = credentials.name;
     this.myUser.password = credentials.password;
     
-    this.usersService.PostLogin(credentials).subscribe(
+    await this.usersService.PostLogin(credentials).subscribe(
       (response) => {
         const token = (<any>response).token;
         localStorage.setItem('jwt', token);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Car } from 'src/app/Models/Car.model';
 import { CarsService } from 'src/app/Services/Cars/cars.service';
@@ -84,7 +85,14 @@ export class AdminAddNewCarPageComponent implements OnInit {
     modelYear: 0,
     imageSrc: '',
   };
-  async newCar() {
+  async newCar(form: NgForm) {
+    // updating car values using form
+    this.car.name=form.value.name;
+    this.car.category=form.value.category;
+    this.car.price=form.value.price;
+    this.car.unitsInStock=form.value.unitsInStock;
+    this.car.modelYear=form.value.modelYear;
+  
     await this.carsService.PostNewCar(this.car).subscribe({
       next: (response) => {
         console.log(response);
@@ -96,8 +104,19 @@ export class AdminAddNewCarPageComponent implements OnInit {
             console.log(this.carId);
             this.ShowImageButton = true;
           },
+          error: (error) => {
+            console.error('Error occurred while getting the new car ID:', error);
+            // Display an error message to the user
+            alert('An error occurred while getting the new car ID. Please try again later.');
+          }
         });
       },
+      error: (error) => {
+        console.error('Error occurred while adding new car:', error);
+        // Display an error message to the user
+        alert('An error occurred while adding the new car.\n\nPlease Make sure you have entered all the fields correctly!\n\nAnd make sure this car doesnt already exist in the shop! ');
+      }
+      
     });
   }
-}
+}  

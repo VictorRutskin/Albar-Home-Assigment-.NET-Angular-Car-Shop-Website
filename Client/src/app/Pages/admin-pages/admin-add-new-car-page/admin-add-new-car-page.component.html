@@ -1,38 +1,32 @@
-<div id="id1" class="container-flex mt-5">
-  <div id="id2" class="container-xxl mt-5">
-    <div>
-      <h1 class="mb-3">Add New Car:</h1>
-    </div>
-    <form #form="ngForm" (ngSubmit)="newCar()">
+<div id="id2" class="container-xxl mt-5">
+  <div>
+    <h1 class="mb-3">Add New Car:</h1>
+  </div>
+  <form class="form-signin" #loginForm="ngForm" (ngSubmit)="newCar(loginForm)">
+    <div class="container-xxl mt-5">
       <div class="m-3">
         <label for="name" class="form-label">Name</label>
         <input
-          [(ngModel)]="car.name"
-          [ngClass]="{
-            'input-invalid': !validateField('name'),
-            'input-valid': validateField('name'),
-            'input-empty': !formData.name
-          }"
-          (blur)="updateform()"
           name="name"
           type="text"
           id="name"
+          ngModel
           class="form-control"
-          aria-describedby="NameHelpBlock"
-          ng-pattern="RegexPatterns[0].pattern"
+          placeholder="Name"
           required
+          autofocus
         />
-        <div id="NameHelpBlock" class="form-text">50 Characters</div>
+        <div id="NameHelpBlock" class="form-text">50 Characters max</div>
       </div>
       <div class="m-3">
-        <label for="category" class="form-label">Category</label>
+        <label for="name" class="form-label">Category</label>
         <select
-          id="category"
           name="category"
-          class="form-select form-select-sm"
-          aria-label=".form-select-sm example"
-          [(ngModel)]="car.category"
+          id="category"
+          ngModel
+          class="form-control"
           required
+          autofocus
         >
           <option value="Family">Family</option>
           <option value="Mini">Mini</option>
@@ -41,60 +35,55 @@
           <option value="Sports">Sports</option>
           <option value="SUV">SUV</option>
         </select>
+        <div id="NameHelpBlock" class="form-text">Select one</div>
       </div>
       <div class="m-3">
         <label for="price" class="form-label">Price</label>
         <input
-          [(ngModel)]="car.price"
           name="price"
-          type="number"
+          type="text"
           id="price"
+          ngModel
           class="form-control"
-          aria-describedby="PriceHelpBlock"
-          ng-pattern="RegexPatterns[1].pattern"
+          placeholder="Price"
           required
+          autofocus
         />
-        <div id="PriceHelpBlock" class="form-text">
-          Number between 0-9999999
-        </div>
+        <div id="NameHelpBlock" class="form-text">Number between 0-9999999</div>
       </div>
       <div class="m-3">
         <label for="unitsInStock" class="form-label">Units In Stock</label>
         <input
-          [(ngModel)]="car.unitsInStock"
           name="unitsInStock"
-          type="number"
+          type="text"
           id="unitsInStock"
+          ngModel
           class="form-control"
-          aria-describedby="UnitsInStockHelpBlock"
-          ng-pattern="RegexPatterns[2].pattern"
+          placeholder="unitsInStock"
           required
+          autofocus
         />
-        <div id="UnitsInStockHelpBlock" class="form-text">
-          Number Between 0-1000
-        </div>
+        <div id="NameHelpBlock" class="form-text">Number Between 0-1000</div>
       </div>
       <div class="m-3">
         <label for="modelYear" class="form-label">Model Year</label>
         <input
-          [(ngModel)]="car.modelYear"
           name="modelYear"
-          type="number"
+          type="text"
           id="modelYear"
+          ngModel
           class="form-control"
-          aria-describedby="ModelYearHelpBlock"
-          ng-pattern="RegexPatterns[3].pattern"
+          placeholder="modelYear"
           required
+          autofocus
         />
-        <div id="ModelYearHelpBlock" class="form-text">
-          Number Between 1886-2023
-        </div>
+        <div id="NameHelpBlock" class="form-text">Number Between 1886-2023</div>
       </div>
-      <button type="submit" class="btn btn-primary m-5">Submit</button>
-    </form>
-    <div *ngIf="ShowImageButton" class="m-3">
-      <h1>Now Upload An Image</h1>
-      <upload-image [imageId]="carId"></upload-image>
     </div>
+    <button type="submit" class="btn btn-primary m-5">Submit</button>
+  </form>
+  <div *ngIf="ShowImageButton" class="m-3">
+    <h1>Now Upload An Image</h1>
+    <upload-image [imageId]="carId"></upload-image>
   </div>
 </div>

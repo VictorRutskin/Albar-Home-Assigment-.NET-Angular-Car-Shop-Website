@@ -23,6 +23,7 @@ namespace Server.Controllers
 
         }
 
+        // Checks if login request is good, if good returns token for the user to use as specific page authorization
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] User userRequest)
@@ -39,6 +40,7 @@ namespace Server.Controllers
                 return Unauthorized("No user was found");
             }
 
+            // Configuring token and its assets
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfiguredValues.GetSecretKey()));
             var signingCredentials = new SigningCredentials(secretKey,SecurityAlgorithms.HmacSha256);
 
@@ -52,10 +54,9 @@ namespace Server.Controllers
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
+            // updating login to now
             user.LastLogin = DateTime.Now;
-
             await mydbcontext.SaveChangesAsync();
-
 
             return Ok(new {Token = tokenString});
         }

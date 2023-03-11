@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Server.Data;
@@ -39,7 +40,7 @@ namespace Server.Controllers
             // Validate the car object
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid Request: "+ModelState);
             }
 
             // If car with the name exist do not add.
@@ -57,7 +58,7 @@ namespace Server.Controllers
             car.ImageSrc = "Car-" + car.Id + ".jpg";
 
             await mydbcontext.SaveChangesAsync();
-            return Ok(car);
+            return Created("Car was created successfully!", car);
         }
 
         // Uploading Car Image
@@ -66,11 +67,6 @@ namespace Server.Controllers
         [Route("Image")]
         public async Task<IActionResult> UploadCarImage()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var formCollection = await Request.ReadFormAsync();
@@ -89,7 +85,7 @@ namespace Server.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-                return Ok(new { dbPath });
+                return Created("Car image uploaded successfully!", new { file });
 
             }
             catch (InvalidFileException invalidFileException)
@@ -105,6 +101,8 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCars()
         {
+            bool InvalidImageCheck = false;
+
             var cars = await mydbcontext.Cars.ToListAsync();
 
             foreach (var car in cars)
@@ -114,7 +112,15 @@ namespace Server.Controllers
                     car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
                 }
                 //no image src detected
-                catch { }
+                catch (ImageNotFoundException imageNotFoundException)
+                {
+                    InvalidImageCheck = true;
+                }
+            }
+            if (InvalidImageCheck)
+            {
+                // Partial Content because not all images loaded
+                return StatusCode(StatusCodes.Status206PartialContent);
             }
 
             return Ok(cars);
@@ -139,7 +145,7 @@ namespace Server.Controllers
             return Ok(car);
         }
 
-        //  Returns a specific car using query, needed only for new car.
+        // Returns a specific car using query, needed only for new car.
         [HttpGet]
         [Route("GetCar2")]
 
@@ -158,7 +164,6 @@ namespace Server.Controllers
         //  Returns a car id if a car with the name exists
         [HttpGet]
         [Route("GetCarWithName")]
-
         public async Task<IActionResult> GetCarWithName([FromQuery] Car myCar)
         {
             var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name);
@@ -188,6 +193,7 @@ namespace Server.Controllers
             foreach (var car in cars)
             {
 
+                // If image exists use it, else use empty
                 string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
                 if (System.IO.File.Exists(imagePath))
                 {
@@ -237,7 +243,7 @@ namespace Server.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid Request: " + ModelState);
             }
 
             var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
@@ -283,7 +289,7 @@ namespace Server.Controllers
                 car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
             }
 
-            return Ok(car);
+            return NoContent(); 
         }
 
 

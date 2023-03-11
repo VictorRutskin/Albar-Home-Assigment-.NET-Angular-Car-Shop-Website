@@ -17,6 +17,7 @@ namespace Server.Services
 
         }
 
+        // This is not used but could potentialy be.
         public class CarNameExistsException : ExceptionHandler
         {
 
