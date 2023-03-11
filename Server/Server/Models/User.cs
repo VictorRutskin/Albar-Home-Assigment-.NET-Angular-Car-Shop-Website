@@ -1,5 +1,6 @@
 ﻿namespace Server.Models
 {
+    // My user model, no validations needed because i do not create new users in this website.
     public class User
     {
         public long Id { get; set; }

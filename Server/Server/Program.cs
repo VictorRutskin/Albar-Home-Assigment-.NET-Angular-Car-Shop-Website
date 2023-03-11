@@ -43,9 +43,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//// Configuring Cors, it will only allow requests from your angular local port: 4200.
-//app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:7099/"));
-
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {

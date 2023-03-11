@@ -15,22 +15,17 @@ namespace Server.Controllers
     [Route("api/[controller]")]
     public class CarController : Controller
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
 
         private readonly MyDbContext mydbcontext;
 
-        private readonly IWebHostEnvironment _environment;
-
-
-        public CarController(MyDbContext mydbcontext, IWebHostEnvironment environment)
+        public CarController(MyDbContext mydbcontext)
         {
             this.mydbcontext = mydbcontext;
-            this._environment = environment;
-
 
         }
 
         //// POST
+
 
         // Adds a car with specific values
         [HttpPost]
@@ -40,7 +35,7 @@ namespace Server.Controllers
             // Validate the car object
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid Request: "+ModelState);
+                return BadRequest("Invalid Request: " + ModelState);
             }
 
             // If car with the name exist do not add.
@@ -77,7 +72,6 @@ namespace Server.Controllers
                     return BadRequest("File is empty.");
                 }
 
-
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
                 var fullPath = Path.Combine(Paths.GetGlobalPath(), fileName.ToString());
                 var dbPath = Path.Combine(Paths.GetLocalPath(), fileName.ToString());
@@ -97,6 +91,8 @@ namespace Server.Controllers
 
         //// GET 
 
+
+
         // Returns all cars
         [HttpGet]
         public async Task<IActionResult> GetAllCars()
@@ -107,14 +103,16 @@ namespace Server.Controllers
 
             foreach (var car in cars)
             {
-                try
+                // If image exists use it, else use empty
+                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                if (System.IO.File.Exists(imagePath))
                 {
                     car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
                 }
                 //no image src detected
-                catch (ImageNotFoundException imageNotFoundException)
+                else
                 {
-                    InvalidImageCheck = true;
+                    car.ImageSrc = "";
                 }
             }
             if (InvalidImageCheck)
@@ -289,7 +287,7 @@ namespace Server.Controllers
                 car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
             }
 
-            return NoContent(); 
+            return NoContent();
         }
 
 

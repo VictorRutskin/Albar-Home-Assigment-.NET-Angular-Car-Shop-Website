@@ -2,6 +2,7 @@
 
 namespace Server.Models
 {
+    // My Car Model, id defined by the mssql server after sending new car to it
     public class Car
     {
         public long Id { get; set; }

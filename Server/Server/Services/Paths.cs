@@ -1,9 +1,8 @@
 ﻿namespace Server.Services
 {
+    // Class to define paths that are used in many places, change here instead of each of them in case they move
     public static class Paths
     {
-        //string folderName = Path.Combine("wwwroot", "Images", "Cars");
-        //string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
         public static string GetLocalPath()
         {

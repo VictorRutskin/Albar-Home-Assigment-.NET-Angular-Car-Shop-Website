@@ -5,13 +5,11 @@ namespace Server.Data
 {
     public class MyDbContext : DbContext
     {
+        // My data template
         public MyDbContext(DbContextOptions options) : base(options)
         {
         }
-
         public DbSet<Car> Cars { get; set; }
         public DbSet<User> Users { get; set; }
-
-
     }
 }

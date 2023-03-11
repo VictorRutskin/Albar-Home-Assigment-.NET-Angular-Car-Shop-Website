@@ -10,6 +10,7 @@ using Server.Data;
 
 namespace Server.Migrations
 {
+    // Automatically generated migrations
     [DbContext(typeof(MyDbContext))]
     partial class MyDbContextModelSnapshot : ModelSnapshot
     {

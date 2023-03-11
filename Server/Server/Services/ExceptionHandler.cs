@@ -17,37 +17,6 @@ namespace Server.Services
 
         }
 
-        // This is not used but could potentialy be.
-        public class CarNameExistsException : ExceptionHandler
-        {
-
-            public CarNameExistsException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "CarNameExistsException";
-                _Description = "A car with this name already exists, duplicates are not allowed.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class ImageNotFoundException : ExceptionHandler
-        {
-
-            public ImageNotFoundException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "ImageNotFoundException";
-                _Description = "This Image Doesnt Exist.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
         public class InvalidFileException : ExceptionHandler
         {
 
@@ -63,6 +32,38 @@ namespace Server.Services
             }
         }
 
+
+        // This is not used but could potentialy be, for now prevented with a check.
+        public class CarNameExistsException : ExceptionHandler
+        {
+
+            public CarNameExistsException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "CarNameExistsException";
+                _Description = "A car with this name already exists, duplicates are not allowed.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        // This is not used but could potentialy be, for now prevented with a check.
+        public class ImageNotFoundException : ExceptionHandler
+        {
+
+            public ImageNotFoundException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "ImageNotFoundException";
+                _Description = "This Image Doesnt Exist.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
 
     }
 }
