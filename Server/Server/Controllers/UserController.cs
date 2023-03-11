@@ -51,6 +51,12 @@ namespace Server.Controllers
                 );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            user.LastLogin = DateTime.Now;
+
+            await mydbcontext.SaveChangesAsync();
+
+
             return Ok(new {Token = tokenString});
         }
 

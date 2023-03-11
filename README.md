@@ -42,34 +42,10 @@ VALUES ('Lamborghini Huracan', 'Sports', 300000.00, 1, 2022 ,'Car-10.jpg');
 Users:
 
 INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('John Smith', 'password123', '2022-01-01 12:00:00');
+VALUES ('Shlomi Mendel', 'HappyDuckFeet300', '2022-01-01 12:00:00');
 
 INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Jane Doe', 'letmein', '2022-01-03 18:30:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('David Lee', 'abc123', '2022-01-05 09:15:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Samantha Kim', 'password456', '2022-01-06 14:45:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Robert Johnson', 'qwerty', '2022-01-07 11:00:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Amy Lee', 'hello123', '2022-01-09 16:20:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Michael Chen', 'football', '2022-01-10 20:10:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Emily Wu', 'iloveyou', '2022-01-12 07:45:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Daniel Kim', '123456', '2022-01-14 13:30:00');
-
-INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Grace Lee', 'password789', '2022-01-15 09:00:00');
+VALUES ('Victor Rutskin', 'BigBruhMomentPerformer', '2022-01-03 18:30:00');
 
 
 

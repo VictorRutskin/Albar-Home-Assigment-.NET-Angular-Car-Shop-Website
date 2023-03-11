@@ -47,11 +47,21 @@ namespace Server.Services
             }
         }
 
-        public static void HandleException(Exception ex)
+        public class InvalidFileException : ExceptionHandler
         {
-            Console.WriteLine("An exception occurred:");
-            Console.WriteLine(ex.Message);
-            Console.WriteLine(ex.StackTrace);
+
+            public InvalidFileException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "InvalidFileException";
+                _Description = "Invalid or empty file.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
         }
+
+
     }
 }

@@ -42,8 +42,8 @@ namespace YourWebApiNamespace
                     ValidateLifetime = true, // The token has not expired
                     ValidateIssuerSigningKey = true, // key is valid
 
-                    ValidIssuer = "https://localhost:7099", // issuer is this host
-                    ValidAudience = "http://localhost:4200", // Audience is the default angular port
+                    ValidIssuer = ConfiguredValues.GetServer(), // issuer is this host
+                    ValidAudience = ConfiguredValues.GetClient(), // Audience is the default angular port
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfiguredValues.GetSecretKey())) // Secret key
                 };
             });

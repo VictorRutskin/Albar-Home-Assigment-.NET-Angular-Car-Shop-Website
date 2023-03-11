@@ -35,15 +35,15 @@ const routes: Routes = [
   },
   {
     path: 'Admin/Manage',
-    component: AdminManageExistingCarsPageComponent,
+    component: AdminManageExistingCarsPageComponent,canActivate:[AuthenticationGuard],
   },
   {
     path: 'Admin/Add',
-    component: AdminAddNewCarPageComponent,
+    component: AdminAddNewCarPageComponent,canActivate:[AuthenticationGuard],
   },
   {
     path: 'Admin/Edit/:id',
-    component: AdminSingleCarEditPageComponent,
+    component: AdminSingleCarEditPageComponent,canActivate:[AuthenticationGuard],
   },
   {
     path: 'Cars',

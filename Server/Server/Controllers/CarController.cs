@@ -36,6 +36,12 @@ namespace Server.Controllers
         [Authorize]
         public async Task<IActionResult> AddCar([FromBody] Car car)
         {
+            // Validate the car object
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             // If car with the name exist do not add.
             var CheckingExistingNameCar = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == car.Name);
 
@@ -60,37 +66,37 @@ namespace Server.Controllers
         [Route("Image")]
         public async Task<IActionResult> UploadCarImage()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var formCollection = await Request.ReadFormAsync();
                 var file = formCollection.Files.First();
 
-                if (file.Length > 0)
+                if (file.Length == 0)
                 {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
-                    var fullPath = Path.Combine(Paths.GetGlobalPath(), fileName.ToString());
-                    var dbPath = Path.Combine(Paths.GetLocalPath(), fileName.ToString());
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    return Ok(new { dbPath });
-                }
-                else
-                {
-                    return BadRequest();
+                    return BadRequest("File is empty.");
                 }
 
+
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+                var fullPath = Path.Combine(Paths.GetGlobalPath(), fileName.ToString());
+                var dbPath = Path.Combine(Paths.GetLocalPath(), fileName.ToString());
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                return Ok(new { dbPath });
+
             }
-            catch (Exception ex)
+            catch (InvalidFileException invalidFileException)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+                return BadRequest(invalidFileException.Message);
             }
         }
-
-
-
-
 
 
         //// GET 
@@ -181,7 +187,24 @@ namespace Server.Controllers
 
             foreach (var car in cars)
             {
-                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+
+                //try
+                //{
+                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                if (System.IO.File.Exists(imagePath))
+                {
+                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                }
+                else
+                {
+                    car.ImageSrc = "";
+                }
+                //}
+                //catch(ImageNotFoundException exception) 
+                //{
+                //    car.ImageSrc = null;
+                //}
+
             }
 
             return Ok(cars);
@@ -220,6 +243,11 @@ namespace Server.Controllers
         [Route("{id:}")]
         public async Task<IActionResult> UpdateCar([FromRoute] long id, Car UpdatedCar)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
 
             if (car == null)
@@ -266,7 +294,7 @@ namespace Server.Controllers
                 }
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 //No image to delete so just continue
                 return Ok(car);
