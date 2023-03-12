@@ -1,4 +1,4 @@
-﻿namespace Server.Services
+﻿namespace Server.Helpers
 {
     // Class to define paths that are used in many places, change here instead of each of them in case they move
     public static class Paths

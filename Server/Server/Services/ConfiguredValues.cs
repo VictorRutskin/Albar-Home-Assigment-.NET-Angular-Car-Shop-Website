@@ -1,4 +1,6 @@
-﻿namespace Server.Services
+﻿namespace Server.Helpers
+
+
 {
     // Configuration interface, for implemantation
     public interface IConfiguredValues
