@@ -9,7 +9,7 @@ namespace Server.Helpers
 
         public static void LogException(string message, Exception ex)
         {
-            string logMessage = $"Time: {DateTime.Now.ToString()},  Description: {message},   Exception Message: {ex.Message},  Data: {ex.Data}\n";
+            string logMessage = $"Time: {DateTime.Now.ToString()},  Description: {message},   Exception Message: {ex.Message}.\n";
 
             using (StreamWriter writer = File.AppendText(LogFilePath))
             {

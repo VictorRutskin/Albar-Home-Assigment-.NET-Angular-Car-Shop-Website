@@ -20,19 +20,6 @@ namespace Server.Controllers
         {
             try
             {
-                try
-                {
-
-                        throw new ModelStateException();
-                    
-                }
-                catch (ModelStateException modelStateException)
-                {
-                    string myError = "Invalid modelstate: ";
-                    MyLogger.LogException(myError, modelStateException);
-                    return NotFound(myError + modelStateException.Message);
-                }
-
                 // Validate the car object
                 try
                 {
