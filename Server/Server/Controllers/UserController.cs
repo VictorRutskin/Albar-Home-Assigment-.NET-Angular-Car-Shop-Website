@@ -46,7 +46,7 @@ namespace Server.Controllers
 
             var tokenOptions = new JwtSecurityToken(
                 issuer: ConfiguredValues.GetServer(),
-                audience: ConfiguredValues.GetServer(),
+                audience: ConfiguredValues.GetClient(),
                 claims: new List<Claim>(),
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signingCredentials

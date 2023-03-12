@@ -10,27 +10,40 @@ import { environment } from 'src/app/Environments/myEnvironment';
 export class CarsService {
   constructor(private http: HttpClient) {}
 
-  // Do i need this for sending the token ??????????????????????????????????????????????????
+  // Gets header and adds the token
   private getHeaders(): HttpHeaders {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
+      Authorization: 'Bearer ' + localStorage.getItem('jwt'),
     });
     return headers;
   }
 
-  GetAllCars(): Observable<Car[]> {
+    // Gets header and adds the token
+    private getHeadersNoType(): HttpHeaders {
+      const headers = new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      });
+      return headers;
+    }
+
+  // Gets all cars
+  public GetAllCars(): Observable<Car[]> {
     return this.http.get<Car[]>(environment.ServerUrl + '/api/Car');
   }
 
-  Get3CarExtras(): Observable<Car[]> {
+  // Gets 3 cars with highest units in stock value
+  public Get3CarExtras(): Observable<Car[]> {
     return this.http.get<Car[]>(environment.ServerUrl + '/api/Car/Top3');
   }
 
-  GetSingleCar(id: number): Observable<Car> {
+  // Returns a single car using id
+  public GetSingleCar(id: number): Observable<Car> {
     return this.http.get<Car>(environment.ServerUrl + '/api/Car/' + id);
   }
-  GetSingleCar2(Car: Car): Observable<Car> {
+
+  // Returns a single car using parameters
+  public GetSingleCar2(Car: Car): Observable<Car> {
     let params = new HttpParams()
       .set('Name', Car.name)
       .set('Category', Car.category)
@@ -40,38 +53,60 @@ export class CarsService {
     });
   }
 
-  GetImage(id: number) {
+  // Returns an image using id
+  public GetImage(id: number) {
     return this.http.get(environment.ServerUrl + '/api/Car/image/' + id, {
       responseType: 'blob',
     });
   }
 
-  GetCarIdUsingName(searchString: string) {
+  // Returns a car id using name
+  public GetCarIdUsingName(searchString: string) {
     return this.http.get<number>(
       environment.ServerUrl + '/api/Car/GetCarWithName?name=' + searchString
     );
   }
 
-  PostNewCar(NewCar: Car): Observable<Car> {
+  // Add new car (admin)
+  public PostNewCar(NewCar: Car): Observable<Car> {
     const headers = this.getHeaders();
-    return this.http.post<Car>(environment.ServerUrl + '/api/Car/', NewCar,{ headers });
+    return this.http.post<Car>(environment.ServerUrl + '/api/Car/', NewCar, {
+      headers,
+    });
   }
 
-  PutBuyOne(boughtCar: Car): Observable<Car> {
+  // Add car image (admin)
+  public PostImage(formData: FormData): Observable<any> {
+    const headers = this.getHeadersNoType();
+    return this.http.post(environment.ServerUrl + '/api/Car/Image', formData, {
+      headers: headers,
+      reportProgress: true,
+      observe: 'events',
+    });
+  }
+  
+
+  // Buys one car (-1 units in stock value)
+  public PutBuyOne(boughtCar: Car): Observable<Car> {
     return this.http.put<Car>(
-      environment.ServerUrl + '/api/Car/' + boughtCar.id,
+      environment.ServerUrl + '/api/Car/Buy/' + boughtCar.id,
       boughtCar
     );
   }
 
-  PutUpdateCar(UpdatedCar: Car): Observable<Car> {
-    return this.http.put<Car>(
-      environment.ServerUrl + '/api/Car/' + UpdatedCar.id,
-      UpdatedCar
-    );
+  // Updates car values (admin)
+  public PutUpdateCar(UpdatedCar: Car): Observable<Car> {
+    const headers = this.getHeaders();
+    return this.http.put<Car>(environment.ServerUrl + '/api/' + UpdatedCar.id, {
+      headers,
+    });
   }
 
-  DeleteCar(id: number): Observable<Car> {
-    return this.http.delete<Car>(environment.ServerUrl + '/api/Car/' + id);
+  // Deletes car (admin)
+  public DeleteCar(id: number): Observable<Car> {
+    const headers = this.getHeaders();
+    return this.http.delete<Car>(environment.ServerUrl + '/api/Car/' + id, {
+      headers,
+    });
   }
 }

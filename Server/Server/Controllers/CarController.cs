@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace Server.Controllers
 
         // Adds a car with specific values
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> AddCar([FromBody] Car car)
         {
             // Validate the car object
@@ -58,12 +59,18 @@ namespace Server.Controllers
 
         // Uploading Car Image
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [Route("Image")]
         public async Task<IActionResult> UploadCarImage()
         {
             try
             {
+                var boundary = Request.GetMultipartBoundary();
+                if (string.IsNullOrEmpty(boundary))
+                {
+                    return BadRequest("Missing content-type boundary.");
+                }
+
                 var formCollection = await Request.ReadFormAsync();
                 var file = formCollection.Files.First();
 
@@ -86,6 +93,7 @@ namespace Server.Controllers
             {
                 return BadRequest(invalidFileException.Message);
             }
+
         }
 
 
@@ -236,6 +244,7 @@ namespace Server.Controllers
 
         // Updates car values
         [HttpPut]
+        [Authorize]
         [Route("{id:}")]
         public async Task<IActionResult> UpdateCar([FromRoute] long id, Car UpdatedCar)
         {
@@ -261,13 +270,36 @@ namespace Server.Controllers
             return Ok(car);
         }
 
+        // Updates car values
+        [HttpPut]
+        [Route("Buy/{id:}")]
+        public async Task<IActionResult> BuyCar([FromRoute] long id)
+        {
+            var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            if(car.UnitsInStock==0)
+            {
+                return BadRequest("Invalid Request: " + ModelState);
+            }
+            car.UnitsInStock = car.UnitsInStock-1;
+
+            await mydbcontext.SaveChangesAsync();
+
+            return Ok(car);
+        }
+
 
 
         //// DELETE 
 
         // Deletes a car using id
         [HttpDelete]
-        //[Authorize]
+        [Authorize]
         [Route("{id:}")]
         public async Task<IActionResult> DeleteCar([FromRoute] long id)
         {

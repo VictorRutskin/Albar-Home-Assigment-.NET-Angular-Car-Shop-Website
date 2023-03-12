@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'src/app/Environments/myEnvironment';
+import { CarsService } from 'src/app/Services/Cars/cars.service';
 
 @Component({
   selector: 'upload-image',
@@ -17,7 +18,7 @@ export class UploadImageComponent implements OnInit {
   @Output() public onUploadFinished = new EventEmitter();
   @Input() imageId: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private carsService:CarsService) {}
   ngOnInit() {}
   uploadFile = (files: any, id: number) => {
     if (files.length === 0) {
@@ -27,12 +28,7 @@ export class UploadImageComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, 'Car-' + id + '.jpg');
 
-    this.http
-      .post(environment.ServerUrl + '/api/Car/Image', formData, {
-        reportProgress: true,
-        observe: 'events',
-      })
-      .subscribe({
+    this.carsService.PostImage(formData).subscribe({
         next: (event) => {
           if (event.type === HttpEventType.UploadProgress)
             this.progress = Math.round((100 * event.loaded) / event.total!);

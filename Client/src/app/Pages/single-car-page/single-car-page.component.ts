@@ -19,18 +19,27 @@ export class SingleCarPageComponent implements OnInit {
 
   car: Car = {
     id: 0,
-    name: '',
-    category: '',
+    name: 'Not Found',
+    category: 'Not Found',
     price: 0,
     unitsInStock: 0,
     modelYear: 0,
     imageSrc: '',
   };
 
+  // PostBuyOne() {
+  //   // Bought 1
+  //   this.car.unitsInStock = this.car.unitsInStock - 1;
+
+  //   this.carsService.PutBuyOne(this.car).subscribe({
+  //     next: (response) => {
+  //       this.router.navigate(['Cars/' + this.carId + '/Success']);
+  //     },
+  //   });
+  // }
+
   PostBuyOne() {
     // Bought 1
-    this.car.unitsInStock = this.car.unitsInStock - 1;
-
     this.carsService.PutBuyOne(this.car).subscribe({
       next: (response) => {
         this.router.navigate(['Cars/' + this.carId + '/Success']);
