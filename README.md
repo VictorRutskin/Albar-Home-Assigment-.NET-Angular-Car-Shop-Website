@@ -2,6 +2,7 @@
 
 ## Note
 - Server side approach about exceptions was to prevent them as much as possible and not throw for faster running times, and handle if there was no choice.
+- 2 types of forms, first one work `onsubmit` button, and the other works `onchange` for variety.
 
 ## Configuration
 ### Asp.Net Core Web API
