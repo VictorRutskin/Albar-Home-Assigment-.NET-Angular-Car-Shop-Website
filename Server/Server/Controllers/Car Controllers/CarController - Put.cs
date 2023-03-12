@@ -12,12 +12,9 @@ using static Server.Services.ExceptionHandler;
 
 namespace Server.Controllers
 {
+    //// PUT Requests
     public partial class CarController : Controller
     {
-
-     
-        //// PUT 
-
         // Updates car values
         [HttpPut]
         [Authorize]
@@ -68,8 +65,6 @@ namespace Server.Controllers
 
             return Ok(car);
         }
-
-
 
 
     }

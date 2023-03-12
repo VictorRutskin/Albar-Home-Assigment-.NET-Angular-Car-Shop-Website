@@ -12,11 +12,9 @@ using static Server.Services.ExceptionHandler;
 
 namespace Server.Controllers
 {
+    //// DELETE Requests
     public partial class CarController : Controller
     {
-
-        //// DELETE 
-
         // Deletes a car using id
         [HttpDelete]
         [Authorize]

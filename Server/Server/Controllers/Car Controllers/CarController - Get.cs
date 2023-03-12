@@ -12,16 +12,9 @@ using static Server.Services.ExceptionHandler;
 
 namespace Server.Controllers
 {
+    //// GET Requests
     public partial class CarController : Controller
     {
-
-    
-
-
-        //// GET 
-
-
-
         // Returns all cars
         [HttpGet]
         public async Task<IActionResult> GetAllCars()
@@ -158,7 +151,6 @@ namespace Server.Controllers
 
             return File(imageBytes, "image/jpeg");
         }
-
 
 
     }

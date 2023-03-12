@@ -12,12 +12,9 @@ using static Server.Services.ExceptionHandler;
 
 namespace Server.Controllers
 {
+    //// POST Requests
     public partial class CarController : Controller
     {
-
-        //// POST
-
-
         // Adds a car with specific values
         [HttpPost]
         [Authorize]
