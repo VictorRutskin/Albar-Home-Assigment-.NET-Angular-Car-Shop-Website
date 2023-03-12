@@ -73,4 +73,3 @@ VALUES ('Victor Rutskin', 'BigBruhMomentPerformer', '2022-01-03 18:30:00');
 
 ## Code I've used for my project
 - Angular Image Upload Button: `https://code-maze.com/upload-files-dot-net-core-angular/`.
-- SafeURL pipe
