@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Server.Data;
-using Server.Helpers;
 using Server.Models;
+using Server.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -39,25 +39,12 @@ namespace Server.Controllers
             {
                 return Unauthorized("No user was found");
             }
-            ConfiguredValues configuredValues = new ConfiguredValues();
-
-            // Configuring token and its assets
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuredValues.GetSecretKey()));
-            var signingCredentials = new SigningCredentials(secretKey,SecurityAlgorithms.HmacSha256);
-
-            var tokenOptions = new JwtSecurityToken(
-                issuer: configuredValues.GetServer(),
-                audience: configuredValues.GetClient(),
-                claims: new List<Claim>(),
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: signingCredentials
-                );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
             // updating login to now
             user.LastLogin = DateTime.Now;
             await mydbcontext.SaveChangesAsync();
+
+            ConfiguredValues configuredValues = new ConfiguredValues();
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(configuredValues.GetToken());
 
             return Ok(new {Token = tokenString});
         }
