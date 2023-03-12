@@ -19,13 +19,13 @@ export class CarsService {
     return headers;
   }
 
-    // Gets header and adds the token
-    private getHeadersNoType(): HttpHeaders {
-      const headers = new HttpHeaders({
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-      });
-      return headers;
-    }
+  // Gets header and adds the token
+  private getHeadersNoType(): HttpHeaders {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+    });
+    return headers;
+  }
 
   // Gets all cars
   public GetAllCars(): Observable<Car[]> {
@@ -84,7 +84,6 @@ export class CarsService {
       observe: 'events',
     });
   }
-  
 
   // Buys one car (-1 units in stock value)
   public PutBuyOne(boughtCar: Car): Observable<Car> {
@@ -97,7 +96,7 @@ export class CarsService {
   // Updates car values (admin)
   public PutUpdateCar(UpdatedCar: Car): Observable<Car> {
     const headers = this.getHeaders();
-    return this.http.put<Car>(environment.ServerUrl + '/api/' + UpdatedCar.id, {
+    return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + UpdatedCar.id, UpdatedCar, {
       headers,
     });
   }

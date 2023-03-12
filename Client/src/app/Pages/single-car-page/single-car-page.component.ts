@@ -27,17 +27,6 @@ export class SingleCarPageComponent implements OnInit {
     imageSrc: '',
   };
 
-  // PostBuyOne() {
-  //   // Bought 1
-  //   this.car.unitsInStock = this.car.unitsInStock - 1;
-
-  //   this.carsService.PutBuyOne(this.car).subscribe({
-  //     next: (response) => {
-  //       this.router.navigate(['Cars/' + this.carId + '/Success']);
-  //     },
-  //   });
-  // }
-
   PostBuyOne() {
     // Bought 1
     this.carsService.PutBuyOne(this.car).subscribe({
