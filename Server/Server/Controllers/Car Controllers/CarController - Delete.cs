@@ -34,7 +34,7 @@ namespace Server.Controllers
             string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
             if (System.IO.File.Exists(imagePath))
             {
-                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                System.IO.File.Delete(imagePath);
             }
 
             return NoContent();
