@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Server.Data;
 using YourWebApiNamespace;
 

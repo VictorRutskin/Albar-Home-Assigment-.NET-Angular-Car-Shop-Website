@@ -1,6 +1,4 @@
-﻿using Server.Models;
-
-namespace Server.Helpers
+﻿namespace Server.Helpers
 {
     public class ExceptionHandler : Exception
     {

@@ -1,14 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
+﻿using Microsoft.AspNetCore.Mvc;
 using Server.Data;
-using Server.Models;
-using Server.Helpers;
-using System.Web;
-using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
 {
