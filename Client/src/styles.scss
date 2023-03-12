@@ -1,4 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
-
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+// Background
+body {
+    background-color: #fff7f7; /* replace with your desired color value */
+  }
+  
+// Text
+$Default-Text-Color:black;
+$Secondary-Text-Color:crimson;
+
+$Default-Text-Shadow:#aeb2aa;
+$Small-Text-Color: #666;
+
+// Image sizes
+.cards-img{
+    width: 100%;
+    height: 400px;
+} 
+.carousel-img{
+    width: 100%;
+    height: 700px;
+    border-radius: 5%;
+} 
+
+// Positioning
+.center {
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center; /* center vertically */
+  }
+  
+
+// Cars 'logo' Text
+.StaticNeon {
+    font-size: 100px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    -webkit-text-stroke-width: 7px;
+    -webkit-text-stroke: crimson;
+    -webkit-text-stroke-color: crimson;
+    -webkit-text-stroke-width: 5px;
+    animation: StaticNeonEffect 6s ease-in-out infinite;
+}
+@keyframes StaticNeonEffect {
+    0% {
+      color: black;
+      -webkit-text-stroke-color: crimson;
+    }
+    50% {
+      color: crimson;
+      -webkit-text-stroke-color: black;
+    }
+    100% {
+      color: black;
+      -webkit-text-stroke-color: crimson;
+    }
+}

@@ -1,11 +1,17 @@
 <div class="container-xxl mt-5">
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="filteredCars.length > 0">
+    <h1 class="center m-5">Category: {{ filterValue }}</h1>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="filteredCars.length < 1">
+    <h1>No Cars In This Category: {{ filterValue }}</h1>
+  </div>
   <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="cars">
     <div class="col" *ngFor="let car of filteredCars">
       <div class="card">
         <a routerLink="/Cars/id/{{ car.id }}">
           <img
             [src]="car.imageSrc | safeResourceUrl"
-            class="card-img-top"
+            class="cards-img"
             alt="No Image"
           />
         </a>
@@ -41,8 +47,5 @@
         </button>
       </div>
     </div>
-  </div>
-  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="filteredCars.length < 1">
-    <h1>No Cars In This Category: {{ filterValue }}</h1>
   </div>
 </div>

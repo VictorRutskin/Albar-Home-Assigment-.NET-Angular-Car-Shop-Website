@@ -1,8 +1,5 @@
-img{
-    width: 100%;
-    height: 700px;
-}
+@import '../../../styles.scss';
 
 h5,h1,p{
-    color:crimson;
+    color:$Secondary-Text-Color;
 }

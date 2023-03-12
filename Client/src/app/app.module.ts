@@ -27,6 +27,7 @@ import { LoginPageComponent } from './Pages/login-page/login-page.component';
 import {JwtModule} from '@auth0/angular-jwt';
 import { environment } from './Environments/myEnvironment';
 import { NotAuthoarizedPageComponent } from './Pages/not-authoarized-page/not-authoarized-page.component';
+import { CarsTitleComponent } from './Components/cars-title/cars-title.component';
 
 export function tokenGetter(){
   return localStorage.getItem("jwt");
@@ -51,6 +52,7 @@ export function tokenGetter(){
     LoginFormComponent,
     LoginPageComponent,
     NotAuthoarizedPageComponent,
+    CarsTitleComponent,
     
   ],
   imports: [

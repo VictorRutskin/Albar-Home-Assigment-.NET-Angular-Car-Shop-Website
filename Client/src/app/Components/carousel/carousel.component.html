@@ -1,4 +1,4 @@
-<div class="mt-5" *ngIf="isInitialized">
+<div class="" *ngIf="isInitialized">
   <div class="container-md">
     <h1>Recommended</h1>
     <ngb-carousel
@@ -10,7 +10,7 @@
     >
       <ng-template ngbSlide *ngFor="let car of cars">
         <a routerLink="/Cars/id/{{ car.id }}">
-          <img [src]="car.imageSrc | safeResourceUrl" alt="No image loaded" />
+          <img class="carousel-img" [src]="car.imageSrc | safeResourceUrl" alt="No image loaded" />
         </a>
         <div class="carousel-caption">
           <h1>{{ car.name }}</h1>

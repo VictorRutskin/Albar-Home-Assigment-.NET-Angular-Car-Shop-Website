@@ -2,7 +2,7 @@
   <div *ngIf="!LoggedIn">
     <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
       <div class="container-xxl mt-5">
-        <h2 class="form-signin-heading">Login</h2>
+        <h1 class="center">Login</h1>
         <div *ngIf="invalidLogin" class="alert alert-danger">
           Invalid name or password
         </div>
@@ -39,6 +39,6 @@
     </form>
   </div>
   <div *ngIf="LoggedIn">
-    <h1>You are logged in !</h1>
+    <h1 class="center">You are logged in !</h1>
   </div>
 </div>
