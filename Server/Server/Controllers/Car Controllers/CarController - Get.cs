@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Helpers;
 using Server.Models;
+using System;
 using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
@@ -43,7 +44,9 @@ namespace Server.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to get all cars, unknown error" + exception);
+                string myError = "Failed to get all cars, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
 
         }
@@ -66,7 +69,9 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Car with id: " + id.ToString() + ", " + notFoundInDbException.Message);
+                    string myError = "Car with id: " + id.ToString() + ", ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);
                 }
 
 
@@ -77,7 +82,9 @@ namespace Server.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to get a car with id, unknown error" + exception);
+                string myError = "Failed to get a car with id, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
         }
 
@@ -100,14 +107,18 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Car with parameters: " + myCar.ToString() + ", " + notFoundInDbException.Message);
+                    string myError = "Car with parameters: " + myCar.ToString() + ", ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);
                 }
 
                 return Ok(car);
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to get a car with name, unknown error" + exception);
+                string myError = "Failed to get a car with name, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
         }
 
@@ -129,14 +140,18 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Car with parameters: " + myCar.ToString() + ", " + notFoundInDbException.Message);
+                    string myError = "Car with parameters: " + myCar.ToString() + ", ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);
                 }
 
                 return Ok(car.Id);
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to get a car with name, unknown error" + exception);
+                string myError = "Failed to get a car with name, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
         }
 
@@ -159,7 +174,9 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Failed go get 3 cars: " + notFoundInDbException.Message);
+                    string myError = "Failed go get 3 cars: ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);
                 }
 
                 foreach (var car in cars)
@@ -181,7 +198,9 @@ namespace Server.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to get top 3 cars, unknown error" + exception);
+                string myError = "Failed to get top 3 cars, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
         }
 
@@ -202,7 +221,9 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Car with id: " + id.ToString() + ", " + notFoundInDbException.Message);
+                    string myError = "Car with id: " + id.ToString() + ", ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);
                 }
 
                 var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
@@ -219,7 +240,9 @@ namespace Server.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to get car image, unknown error" + exception);
+                string myError = "Failed to get car image, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
 
         }

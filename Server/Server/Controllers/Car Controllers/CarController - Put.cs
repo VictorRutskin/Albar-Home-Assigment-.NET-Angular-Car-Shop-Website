@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Server.Helpers;
 using Server.Models;
+using System;
 using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
@@ -17,9 +19,19 @@ namespace Server.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                // Validate the car object
+                try
                 {
-                    return BadRequest("Invalid Request: " + ModelState);
+                    if (!ModelState.IsValid)
+                    {
+                        throw new ModelStateException();
+                    }
+                }
+                catch (ModelStateException modelStateException)
+                {
+                    string myError = "Invalid modelstate: ";
+                    MyLogger.LogException(myError, modelStateException);
+                    return NotFound(myError + modelStateException.Message);
                 }
 
                 var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
@@ -33,7 +45,9 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Car with id: " + id.ToString() + " could not be updated, " + notFoundInDbException.Message);
+                    string myError = "Car with id: " + id.ToString() + " could not be updated, ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);                
                 }
                 car.Name = UpdatedCar.Name;
                 car.Category = UpdatedCar.Category;
@@ -41,13 +55,24 @@ namespace Server.Controllers
                 car.UnitsInStock = UpdatedCar.UnitsInStock;
                 car.ModelYear = UpdatedCar.ModelYear;
 
-                await mydbcontext.SaveChangesAsync();
+                try
+                {
+                    await mydbcontext.SaveChangesAsync();
+                }
+                catch (DbActionFailedException dbActionFailedException)
+                {
+                    string myError = "failed to save car changes: ";
+                    MyLogger.LogException(myError, dbActionFailedException);
+                    return NotFound(myError + dbActionFailedException.Message);
+                }
 
                 return Ok(car);
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to Update a car, unknown error" + exception);
+                string myError = "Failed to Update a car, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
 
         }
@@ -70,7 +95,9 @@ namespace Server.Controllers
                 }
                 catch (NotFoundInDbException notFoundInDbException)
                 {
-                    return NotFound("Car with id: " + id.ToString() + " could not be bought, " + notFoundInDbException.Message);
+                    string myError = "Car with id: " + id.ToString() + " could not be bought, ";
+                    MyLogger.LogException(myError, notFoundInDbException);
+                    return NotFound(myError + notFoundInDbException.Message);
                 }
 
 
@@ -80,14 +107,24 @@ namespace Server.Controllers
                 }
                 car.UnitsInStock = car.UnitsInStock - 1;
 
-                await mydbcontext.SaveChangesAsync();
-
+                try
+                {
+                    await mydbcontext.SaveChangesAsync();
+                }
+                catch (DbActionFailedException dbActionFailedException)
+                {
+                    string myError = "failed to save car changes: ";
+                    MyLogger.LogException(myError, dbActionFailedException);
+                    return NotFound(myError + dbActionFailedException.Message);
+                }
                 return Ok(car);
 
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to buy a car, unknown error" + exception);
+                string myError = "Failed to buy a car, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
         }
 

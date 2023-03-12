@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Server.Helpers;
 using Server.Models;
+using System;
 using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
@@ -19,11 +20,34 @@ namespace Server.Controllers
         {
             try
             {
-                // Validate the car object
-                if (!ModelState.IsValid)
+                try
                 {
-                    return BadRequest("Invalid Request: " + ModelState);
+
+                        throw new ModelStateException();
+                    
                 }
+                catch (ModelStateException modelStateException)
+                {
+                    string myError = "Invalid modelstate: ";
+                    MyLogger.LogException(myError, modelStateException);
+                    return NotFound(myError + modelStateException.Message);
+                }
+
+                // Validate the car object
+                try
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        throw new ModelStateException();
+                    }
+                }
+                catch (ModelStateException modelStateException)
+                {
+                    string myError = "Invalid modelstate: ";
+                    MyLogger.LogException(myError, modelStateException);
+                    return NotFound(myError + modelStateException.Message);
+                }
+
 
                 // If car with the name exist do not add.
                 var CheckingExistingNameCar = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == car.Name);
@@ -44,7 +68,9 @@ namespace Server.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to add a car, unknown error" + exception);
+                string myError = "Failed to add a car, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
 
         }
@@ -57,33 +83,48 @@ namespace Server.Controllers
         {
             try
             {
-                var boundary = Request.GetMultipartBoundary();
-                if (string.IsNullOrEmpty(boundary))
-                {
-                    return BadRequest("Missing content-type boundary.");
-                }
-
                 var formCollection = await Request.ReadFormAsync();
                 var file = formCollection.Files.First();
 
-                if (file.Length == 0)
+                try
                 {
-                    return BadRequest("File is empty.");
+                    if (file.Length == 0)
+                    {
+                        throw new ImageAddingException();
+                    }
+                }
+                catch (ImageAddingException ImageAddingException)
+                {
+                    string myError = "Failed to upload a car image, file was empty:";
+                    MyLogger.LogException(myError, ImageAddingException);
+                    return NotFound(myError + ImageAddingException.Message);
                 }
 
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
                 var fullPath = Path.Combine(Paths.GetGlobalPath(), fileName.ToString());
                 var dbPath = Path.Combine(Paths.GetLocalPath(), fileName.ToString());
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+
+                try
                 {
-                    await file.CopyToAsync(stream);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                catch (ImageAddingException imageAddingException)
+                {
+                    string myError = "Failed to upload a car image:";
+                    MyLogger.LogException(myError, imageAddingException);
+                    return NotFound(myError + imageAddingException.Message);
                 }
                 return Created("Car image uploaded successfully!", new { file });
 
             }
             catch (Exception exception)
             {
-                return StatusCode(500, "Failed to upload a car image, unknown error:"+ exception);
+                string myError = "Failed to upload a car image, unknown error:";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError + exception.Message);
             }
 
         }

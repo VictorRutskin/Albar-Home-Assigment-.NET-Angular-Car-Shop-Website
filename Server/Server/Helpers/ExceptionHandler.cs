@@ -15,120 +15,16 @@
 
         }
 
-        public class InvalidFileException : ExceptionHandler
+
+        public class ImageAddingException : ExceptionHandler
         {
 
-            public InvalidFileException(string explanation = "") : base()
+            public ImageAddingException(string explanation = "") : base()
             {
                 DateTime Now = DateTime.Now;
 
-                _Name = "InvalidFileException";
-                _Description = "Invalid or empty file.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class DeleteFailedException : ExceptionHandler
-        {
-
-            public DeleteFailedException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "DeleteFailedException";
-                _Description = "Delete failed.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class CarNameExistsException : ExceptionHandler
-        {
-
-            public CarNameExistsException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "CarNameExistsException";
-                _Description = "A car with this name already exists, duplicates are not allowed.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class ImageNotFoundException : ExceptionHandler
-        {
-
-            public ImageNotFoundException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "ImageNotFoundException";
-                _Description = "This Image Doesnt Exist.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class ImageGetFailedException : ExceptionHandler
-        {
-
-            public ImageGetFailedException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "ImageGetFailedException";
-                _Description = "Failed to get the image.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class CarAddingException : ExceptionHandler
-        {
-
-            public CarAddingException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "CarAddingException";
-                _Description = "Failed to add a car.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class CarUpdatingException : ExceptionHandler
-        {
-
-            public CarUpdatingException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "CarUpdatingException";
-                _Description = "Updating the values of a car failed.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
-        public class CarGetException : ExceptionHandler
-        {
-
-            public CarGetException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "CarGetException";
-                _Description = "Failed to get car.";
+                _Name = "ImageAddingException";
+                _Description = "Could not add image.";
                 _Explanation = explanation;
                 _Time = Now.ToString();
 
@@ -144,6 +40,36 @@
 
                 _Name = "CarGetException";
                 _Description = "Failed to get car.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class DbActionFailedException : ExceptionHandler
+        {
+
+            public DbActionFailedException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "DbActionFailedException";
+                _Description = "Failed to do a db action.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class ModelStateException : ExceptionHandler
+        {
+
+            public ModelStateException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "ModelStateException";
+                _Description = "Modelstate is not right.";
                 _Explanation = explanation;
                 _Time = Now.ToString();
 
