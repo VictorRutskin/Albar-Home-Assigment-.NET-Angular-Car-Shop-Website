@@ -7,13 +7,13 @@
 ## Configuration
 ### Asp.Net Core Web API
 - Go To `ConfiguredValues.cs`.
-- Change the values to your local ports, `GetClient` will be Angulars Default port and `GetServer` will be the server default port.
+- Change the values to your local ports, `GetClient` will be Angulars Default port and `GetServer` will be the server default port, they are defaulty set to: `https://localhost:7099` (server) and `http://localhost:4200` (client).
 - Change servername from DESKTOP-OJ4FU91\\VICTORSERVER to your local mssql server name, in `appsettings.json`.
 - Go to tools in VS studio > nuget package manager > package manager console > write: `Update-Database`
 
 ### Angular
 - Go To `myEnvironment.ts`.
-- Change the `ServerUrl` to your server default port.
+- Change the `ServerUrl` to your server default port, it is defaulty set to: `https://localhost:7099`.
 
 
 ### MSSQL
