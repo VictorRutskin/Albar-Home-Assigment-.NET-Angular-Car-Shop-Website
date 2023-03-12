@@ -49,8 +49,6 @@ namespace Server.Helpers
 
             return tokenOptions;
 
-
-
         }
     }
 }

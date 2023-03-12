@@ -17,28 +17,36 @@ namespace Server.Controllers
         [Authorize]
         public async Task<IActionResult> AddCar([FromBody] Car car)
         {
-            // Validate the car object
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest("Invalid Request: " + ModelState);
+                // Validate the car object
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid Request: " + ModelState);
+                }
+
+                // If car with the name exist do not add.
+                var CheckingExistingNameCar = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == car.Name);
+
+                if (CheckingExistingNameCar != null)
+                {
+                    return Conflict("A car with this name already exists, duplicates are not allowed.");
+                }
+
+                await mydbcontext.AddAsync(car);
+                await mydbcontext.SaveChangesAsync();
+
+                // Setting the right imageSrc
+                car.ImageSrc = "Car-" + car.Id + ".jpg";
+
+                await mydbcontext.SaveChangesAsync();
+                return Created("Car was created successfully!", car);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, "Failed to add a car, unknown error" + exception);
             }
 
-            // If car with the name exist do not add.
-            var CheckingExistingNameCar = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == car.Name);
-
-            if (CheckingExistingNameCar != null)
-            {
-                return Conflict("A car with this name already exists, duplicates are not allowed.");
-            }
-
-            await mydbcontext.AddAsync(car);
-            await mydbcontext.SaveChangesAsync();
-
-            // Setting the right imageSrc
-            car.ImageSrc = "Car-" + car.Id + ".jpg";
-
-            await mydbcontext.SaveChangesAsync();
-            return Created("Car was created successfully!", car);
         }
 
         // Uploading Car Image
@@ -73,9 +81,9 @@ namespace Server.Controllers
                 return Created("Car image uploaded successfully!", new { file });
 
             }
-            catch (InvalidFileException invalidFileException)
+            catch (Exception exception)
             {
-                return BadRequest(invalidFileException.Message);
+                return StatusCode(500, "Failed to upload a car image, unknown error:"+ exception);
             }
 
         }

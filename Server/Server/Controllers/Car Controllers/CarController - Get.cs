@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Helpers;
 using Server.Models;
+using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
 {
@@ -12,31 +13,39 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCars()
         {
-            bool InvalidImageCheck = false;
-
-            var cars = await mydbcontext.Cars.ToListAsync();
-
-            foreach (var car in cars)
+            try
             {
-                // If image exists use it, else use empty
-                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
-                if (System.IO.File.Exists(imagePath))
+                bool InvalidImageCheck = false;
+
+                var cars = await mydbcontext.Cars.ToListAsync();
+
+                foreach (var car in cars)
                 {
-                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                    // If image exists use it, else use empty
+                    string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                    }
+                    //no image src detected
+                    else
+                    {
+                        car.ImageSrc = "";
+                    }
                 }
-                //no image src detected
-                else
+                if (InvalidImageCheck)
                 {
-                    car.ImageSrc = "";
+                    // Partial Content because not all images loaded
+                    return StatusCode(StatusCodes.Status206PartialContent);
                 }
+
+                return Ok(cars);
             }
-            if (InvalidImageCheck)
+            catch (Exception exception)
             {
-                // Partial Content because not all images loaded
-                return StatusCode(StatusCodes.Status206PartialContent);
+                return StatusCode(500, "Failed to get all cars, unknown error" + exception);
             }
 
-            return Ok(cars);
         }
 
         // Returns a specific car using id
@@ -44,18 +53,32 @@ namespace Server.Controllers
         [Route("{id:}")]
         public async Task<IActionResult> GetCar([FromRoute] long id)
         {
-            var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (car == null)
+            try
             {
-                return NotFound();
+                var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
+
+                try
+                {
+                    if (car == null)
+                    {
+                        throw new NotFoundInDbException();
+                    }
+                }
+                catch (NotFoundInDbException notFoundInDbException)
+                {
+                    return NotFound("Car with id: " + id.ToString() + ", " + notFoundInDbException.Message);
+                }
+
+
+                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+
+
+                return Ok(car);
             }
-
-
-            car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
-
-
-            return Ok(car);
+            catch (Exception exception)
+            {
+                return StatusCode(500, "Failed to get a car with id, unknown error" + exception);
+            }
         }
 
         // Returns a specific car using query, needed only for new car.
@@ -64,14 +87,28 @@ namespace Server.Controllers
 
         public async Task<IActionResult> GetCar2([FromQuery] Car myCar)
         {
-            var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name && x.Category == myCar.Category && x.Price == myCar.Price);
-
-            if (car == null)
+            try
             {
-                return NotFound();
-            }
+                var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name && x.Category == myCar.Category && x.Price == myCar.Price);
 
-            return Ok(car);
+                try
+                {
+                    if (car == null)
+                    {
+                        throw new NotFoundInDbException();
+                    }
+                }
+                catch (NotFoundInDbException notFoundInDbException)
+                {
+                    return NotFound("Car with parameters: " + myCar.ToString() + ", " + notFoundInDbException.Message);
+                }
+
+                return Ok(car);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, "Failed to get a car with name, unknown error" + exception);
+            }
         }
 
         //  Returns a car id if a car with the name exists
@@ -79,14 +116,28 @@ namespace Server.Controllers
         [Route("GetCarWithName")]
         public async Task<IActionResult> GetCarWithName([FromQuery] Car myCar)
         {
-            var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name);
-
-            if (car == null)
+            try
             {
-                return NotFound();
-            }
+                var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name);
 
-            return Ok(car.Id);
+                try
+                {
+                    if (car == null)
+                    {
+                        throw new NotFoundInDbException();
+                    }
+                }
+                catch (NotFoundInDbException notFoundInDbException)
+                {
+                    return NotFound("Car with parameters: " + myCar.ToString() + ", " + notFoundInDbException.Message);
+                }
+
+                return Ok(car.Id);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, "Failed to get a car with name, unknown error" + exception);
+            }
         }
 
         // Returns top 3 cars with most UnitsInStock value
@@ -94,55 +145,83 @@ namespace Server.Controllers
         [Route("Top3")]
         public async Task<IActionResult> Get3CarExtras()
         {
-            var cars = await mydbcontext.Cars.OrderByDescending(c => c.UnitsInStock)
+            try
+            {
+                var cars = await mydbcontext.Cars.OrderByDescending(c => c.UnitsInStock)
                                              .Take(3)
                                              .ToListAsync();
-
-            if (cars == null || !cars.Any())
-            {
-                return NotFound();
-            }
-
-            foreach (var car in cars)
-            {
-
-                // If image exists use it, else use empty
-                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
-                if (System.IO.File.Exists(imagePath))
+                try
                 {
-                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                    if (cars == null || !cars.Any())
+                    {
+                        throw new NotFoundInDbException();
+                    }
                 }
-                else
+                catch (NotFoundInDbException notFoundInDbException)
                 {
-                    car.ImageSrc = "";
+                    return NotFound("Failed go get 3 cars: " + notFoundInDbException.Message);
                 }
-            }
 
-            return Ok(cars);
+                foreach (var car in cars)
+                {
+
+                    // If image exists use it, else use empty
+                    string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                    }
+                    else
+                    {
+                        car.ImageSrc = "";
+                    }
+                }
+
+                return Ok(cars);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, "Failed to get top 3 cars, unknown error" + exception);
+            }
         }
 
         // Returns the car image
         [HttpGet("image/{id}")]
         public async Task<IActionResult> GetCarImage(long id)
         {
-            var car = await mydbcontext.Cars.FindAsync(id);
-
-            if (car == null)
+            try
             {
-                return NotFound();
+                var car = await mydbcontext.Cars.FindAsync(id);
+
+                try
+                {
+                    if (car == null)
+                    {
+                        throw new NotFoundInDbException();
+                    }
+                }
+                catch (NotFoundInDbException notFoundInDbException)
+                {
+                    return NotFound("Car with id: " + id.ToString() + ", " + notFoundInDbException.Message);
+                }
+
+                var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
+
+                if (!System.IO.File.Exists(imagePath))
+                {
+                    return NotFound();
+                }
+
+                var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+
+
+                return File(imageBytes, "image/jpeg");
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, "Failed to get car image, unknown error" + exception);
             }
 
-            var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
-
-            if (!System.IO.File.Exists(imagePath))
-            {
-                return NotFound();
-            }
-
-            var imageBytes = System.IO.File.ReadAllBytes(imagePath);
-
-
-            return File(imageBytes, "image/jpeg");
         }
 
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Helpers;
+using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
 {
@@ -14,23 +15,38 @@ namespace Server.Controllers
         [Route("{id:}")]
         public async Task<IActionResult> DeleteCar([FromRoute] long id)
         {
-            var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (car == null)
+            try
             {
-                return NotFound();
-            }
-            mydbcontext.Cars.Remove(car);
-            await mydbcontext.SaveChangesAsync();
+                var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
 
-            // If image exists delete, else dont
-            string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
-            if (System.IO.File.Exists(imagePath))
+                try
+                {
+                    if (car == null)
+                    {
+                        throw new NotFoundInDbException();
+                    }
+                }
+                catch (NotFoundInDbException notFoundInDbException)
+                {
+                    return NotFound("Car with id: "+id.ToString()+", " + notFoundInDbException.Message);
+                }
+
+                mydbcontext.Cars.Remove(car);
+                await mydbcontext.SaveChangesAsync();
+
+                // If image exists delete, else dont
+                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+
+                return NoContent();
+            }
+            catch (Exception exception)
             {
-                System.IO.File.Delete(imagePath);
+                return StatusCode(500, "Failed to delete a car, unknown error" + exception);
             }
-
-            return NoContent();
         }
 
 

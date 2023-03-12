@@ -30,8 +30,21 @@
             }
         }
 
+        public class DeleteFailedException : ExceptionHandler
+        {
 
-        // This is not used but could potentialy be, for now prevented with a check.
+            public DeleteFailedException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "DeleteFailedException";
+                _Description = "Delete failed.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
         public class CarNameExistsException : ExceptionHandler
         {
 
@@ -47,7 +60,6 @@
             }
         }
 
-        // This is not used but could potentialy be, for now prevented with a check.
         public class ImageNotFoundException : ExceptionHandler
         {
 
@@ -57,6 +69,81 @@
 
                 _Name = "ImageNotFoundException";
                 _Description = "This Image Doesnt Exist.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class ImageGetFailedException : ExceptionHandler
+        {
+
+            public ImageGetFailedException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "ImageGetFailedException";
+                _Description = "Failed to get the image.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class CarAddingException : ExceptionHandler
+        {
+
+            public CarAddingException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "CarAddingException";
+                _Description = "Failed to add a car.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class CarUpdatingException : ExceptionHandler
+        {
+
+            public CarUpdatingException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "CarUpdatingException";
+                _Description = "Updating the values of a car failed.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class CarGetException : ExceptionHandler
+        {
+
+            public CarGetException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "CarGetException";
+                _Description = "Failed to get car.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
+        public class NotFoundInDbException : ExceptionHandler
+        {
+
+            public NotFoundInDbException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "CarGetException";
+                _Description = "Failed to get car.";
                 _Explanation = explanation;
                 _Time = Now.ToString();
 

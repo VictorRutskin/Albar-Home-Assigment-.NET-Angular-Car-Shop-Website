@@ -67,7 +67,7 @@ namespace YourWebApiNamespace
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
-                RequestPath = "/wwwroot"
+                RequestPath = env.WebRootPath
             });
 
             app.UseHttpsRedirection();

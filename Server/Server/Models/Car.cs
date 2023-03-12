@@ -24,5 +24,11 @@ namespace Server.Models
 
         public string? ImageSrc { get; set; }
 
+
+        public override string ToString()
+        {
+            return "Id: " + Id + ", " + "Name: " + Name + ", " + "Category: " + Category + ", " + "Price: " + Price + ", " + "UnitsInStock: " + UnitsInStock + ", "+"ModelYear: " + ModelYear + ", " +"ImageSrc: " + ImageSrc + ", ";
+        }
+
     }
 }
