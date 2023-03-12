@@ -11,6 +11,7 @@
 - Go to tools in VS studio > nuget package manager > package manager console > write: `Update-Database`
 
 ### Angular
+- Open the Client using cmd and enter `npm install`.
 - Go To `myEnvironment.ts`.
 - Change the `ServerUrl` to your server default port, it is defaulty set to: `https://localhost:7099`.
 
