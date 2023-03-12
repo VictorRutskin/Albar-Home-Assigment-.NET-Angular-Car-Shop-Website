@@ -39,14 +39,15 @@ namespace Server.Controllers
             {
                 return Unauthorized("No user was found");
             }
+            ConfiguredValues configuredValues = new ConfiguredValues();
 
             // Configuring token and its assets
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfiguredValues.GetSecretKey()));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuredValues.GetSecretKey()));
             var signingCredentials = new SigningCredentials(secretKey,SecurityAlgorithms.HmacSha256);
 
             var tokenOptions = new JwtSecurityToken(
-                issuer: ConfiguredValues.GetServer(),
-                audience: ConfiguredValues.GetClient(),
+                issuer: configuredValues.GetServer(),
+                audience: configuredValues.GetClient(),
                 claims: new List<Claim>(),
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signingCredentials

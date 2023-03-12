@@ -3,9 +3,9 @@ using Server.Models;
 
 namespace Server.Data
 {
+    // My data template
     public class MyDbContext : DbContext
     {
-        // My data template
         public MyDbContext(DbContextOptions options) : base(options)
         {
         }

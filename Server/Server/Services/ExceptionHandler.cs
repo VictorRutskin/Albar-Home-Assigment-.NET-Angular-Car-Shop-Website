@@ -7,7 +7,7 @@ namespace Server.Services
         private string _Name;
         private string _Description;
         private string _Explanation;
-        private string _Time;
+        private string? _Time;
 
         public ExceptionHandler(string name = "", string description = "", string explanation = "")
         {
