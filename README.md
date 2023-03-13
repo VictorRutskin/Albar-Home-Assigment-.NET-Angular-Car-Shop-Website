@@ -54,7 +54,7 @@ VALUES ('Lamborghini Huracan', 'Sports', 300000.00, 1, 2022 ,'Car-10.jpg');
 #### Users:
 ```
 INSERT INTO Users (Name, Password, LastLogin)
-VALUES ('Shlomi Mendel', 'HappyDuck300', '2022-01-01 12:00:00');
+VALUES ('Shlomi Mandel', 'HappyDuck300', '2022-01-01 12:00:00');
 
 INSERT INTO Users (Name, Password, LastLogin)
 VALUES ('Victor Rutskin', 'BigBruhMomentPerformer', '2022-01-03 18:30:00');
