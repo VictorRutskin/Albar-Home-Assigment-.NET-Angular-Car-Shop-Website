@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 # Files that shold not be in git
 Logs.txt
-
+Server/Server/published/
 # User-specific files
 *.rsuser
 *.suo
