@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Server.Helpers;
 using System.Text;
 
-namespace YourWebApiNamespace
+namespace Server.Startup
 {
     public class Startup
     {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Server.Data;
-using YourWebApiNamespace;
+using Server.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
