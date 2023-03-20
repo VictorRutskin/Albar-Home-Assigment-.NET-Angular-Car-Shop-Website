@@ -32,6 +32,7 @@ namespace Server.Controllers
                     else
                     {
                         car.ImageSrc = "";
+                        InvalidImageCheck = true;
                     }
                 }
                 if (InvalidImageCheck)
@@ -46,83 +47,75 @@ namespace Server.Controllers
             {
                 string myError = "Failed to get all cars, unknown error:";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, myError);
             }
 
         }
 
         // Returns a specific car using id
         [HttpGet]
-        [Route("{id:}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetCar([FromRoute] long id)
         {
             try
             {
                 var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
 
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
+                    throw new NotFoundInDbException();
                 }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with id: " + id.ToString() + ", ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
-                }
-
 
                 car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
 
-
                 return Ok(car);
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Car with id: " + id.ToString() + " not found in the database";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError);
             }
             catch (Exception exception)
             {
                 string myError = "Failed to get a car with id, unknown error:";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, myError);
             }
         }
+
 
         // Returns a specific car using query, needed only for new car.
         [HttpGet]
         [Route("GetCar2")]
-
         public async Task<IActionResult> GetCar2([FromQuery] Car myCar)
         {
             try
             {
                 var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name && x.Category == myCar.Category && x.Price == myCar.Price);
 
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
-                }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with parameters: " + myCar.ToString() + ", ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
+                    throw new NotFoundInDbException();
                 }
 
                 return Ok(car);
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Car with parameters: " + myCar.ToString() + " not found in the database";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError);
             }
             catch (Exception exception)
             {
                 string myError = "Failed to get a car with name, unknown error:";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, myError);
             }
         }
 
-        //  Returns a car id if a car with the name exists
+        // Returns a car id if a car with the name exists
         [HttpGet]
         [Route("GetCarWithName")]
         public async Task<IActionResult> GetCarWithName([FromQuery] Car myCar)
@@ -131,29 +124,27 @@ namespace Server.Controllers
             {
                 var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == myCar.Name);
 
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
-                }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with parameters: " + myCar.ToString() + ", ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
+                    throw new NotFoundInDbException();
                 }
 
                 return Ok(car.Id);
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Car with parameters: " + myCar.ToString() + " not found in the database";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError);
             }
             catch (Exception exception)
             {
                 string myError = "Failed to get a car with name, unknown error:";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, myError);
             }
         }
+
 
         // Returns top 3 cars with most UnitsInStock value
         [HttpGet]
@@ -212,18 +203,9 @@ namespace Server.Controllers
             {
                 var car = await mydbcontext.Cars.FindAsync(id);
 
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
-                }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with id: " + id.ToString() + ", ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
+                    throw new NotFoundInDbException();
                 }
 
                 var imagePath = Path.Combine(Paths.GetGlobalPath(), car.ImageSrc!);
@@ -233,19 +215,24 @@ namespace Server.Controllers
                     return NotFound();
                 }
 
-                var imageBytes = System.IO.File.ReadAllBytes(imagePath);
-
+                var imageBytes = await System.IO.File.ReadAllBytesAsync(imagePath);
 
                 return File(imageBytes, "image/jpeg");
             }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Car with id: " + id.ToString() + " was not found in the database.";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError);
+            }
             catch (Exception exception)
             {
-                string myError = "Failed to get car image, unknown error:";
+                string myError = "Failed to get car image with id " + id.ToString() + ", unknown error:";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, myError + exception.Message);
             }
-
         }
+
 
 
     }

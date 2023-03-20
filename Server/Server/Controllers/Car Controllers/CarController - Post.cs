@@ -21,21 +21,10 @@ namespace Server.Controllers
             try
             {
                 // Validate the car object
-                try
+                if (!ModelState.IsValid)
                 {
-                    if (!ModelState.IsValid)
-                    {
-                        throw new ModelStateException();
-                    }
+                    throw new ModelStateException();
                 }
-                catch (ModelStateException modelStateException)
-                {
-                    string myError = "Invalid modelstate: ";
-                    MyLogger.LogException(myError, modelStateException);
-                    return NotFound(myError + modelStateException.Message);
-                }
-
-
                 // If car with the name exist do not add.
                 var CheckingExistingNameCar = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Name == car.Name);
 
@@ -53,11 +42,17 @@ namespace Server.Controllers
                 await mydbcontext.SaveChangesAsync();
                 return Created("Car was created successfully!", car);
             }
+            catch (ModelStateException modelStateException)
+            {
+                string myError = "Invalid modelstate: ";
+                MyLogger.LogException(myError, modelStateException);
+                return BadRequest(myError + modelStateException.Message);
+            }
             catch (Exception exception)
             {
                 string myError = "Failed to add a car, unknown error:";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return BadRequest(myError + exception.Message);
             }
 
         }
@@ -71,49 +66,35 @@ namespace Server.Controllers
             try
             {
                 var formCollection = await Request.ReadFormAsync();
-                var file = formCollection.Files.First();
+                var file = formCollection.Files.FirstOrDefault();
 
-                try
+                if (file == null || file.Length == 0)
                 {
-                    if (file.Length == 0)
-                    {
-                        throw new ImageAddingException();
-                    }
-                }
-                catch (ImageAddingException ImageAddingException)
-                {
-                    string myError = "Failed to upload a car image, file was empty:";
-                    MyLogger.LogException(myError, ImageAddingException);
-                    return NotFound(myError + ImageAddingException.Message);
+                    throw new ImageAddingException("Failed to upload a car image, file was empty.");
                 }
 
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
                 var fullPath = Path.Combine(Paths.GetGlobalPath(), fileName.ToString());
                 var dbPath = Path.Combine(Paths.GetLocalPath(), fileName.ToString());
 
-                try
+                using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
+                    await file.CopyToAsync(stream);
                 }
-                catch (ImageAddingException imageAddingException)
-                {
-                    string myError = "Failed to upload a car image:";
-                    MyLogger.LogException(myError, imageAddingException);
-                    return NotFound(myError + imageAddingException.Message);
-                }
+
                 return Created("Car image uploaded successfully!", new { file });
-
             }
-            catch (Exception exception)
+            catch (ImageAddingException ex)
             {
-                string myError = "Failed to upload a car image, unknown error:";
-                MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                MyLogger.LogException(ex.Message, ex);
+                return NotFound(ex.Message);
             }
-
+            catch (Exception ex)
+            {
+                string message = "Failed to upload a car image, unknown error.";
+                MyLogger.LogException(message, ex);
+                return NotFound(message);
+            }
         }
 
 

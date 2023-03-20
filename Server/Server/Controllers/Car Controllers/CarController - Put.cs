@@ -20,64 +20,54 @@ namespace Server.Controllers
             try
             {
                 // Validate the car object
-                try
+                if (!ModelState.IsValid)
                 {
-                    if (!ModelState.IsValid)
-                    {
-                        throw new ModelStateException();
-                    }
+                    throw new ModelStateException();
                 }
-                catch (ModelStateException modelStateException)
-                {
-                    string myError = "Invalid modelstate: ";
-                    MyLogger.LogException(myError, modelStateException);
-                    return NotFound(myError + modelStateException.Message);
-                }
-
                 var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
 
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
+                    throw new NotFoundInDbException();
                 }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with id: " + id.ToString() + " could not be updated, ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);                
-                }
+
                 car.Name = UpdatedCar.Name;
                 car.Category = UpdatedCar.Category;
                 car.Price = UpdatedCar.Price;
                 car.UnitsInStock = UpdatedCar.UnitsInStock;
                 car.ModelYear = UpdatedCar.ModelYear;
 
-                try
-                {
-                    await mydbcontext.SaveChangesAsync();
-                }
-                catch (DbActionFailedException dbActionFailedException)
-                {
-                    string myError = "failed to save car changes: ";
-                    MyLogger.LogException(myError, dbActionFailedException);
-                    return NotFound(myError + dbActionFailedException.Message);
-                }
+                await mydbcontext.SaveChangesAsync();
 
                 return Ok(car);
             }
+            catch (ModelStateException modelStateException)
+            {
+                string myError = "Invalid modelstate: ";
+                MyLogger.LogException(myError, modelStateException);
+                return NotFound(myError + modelStateException.Message);
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Car with id: " + id.ToString() + " could not be updated, ";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError + notFoundInDbException.Message);
+            }
+            catch (DbActionFailedException dbActionFailedException)
+            {
+                string myError = "Failed to save car changes: ";
+                MyLogger.LogException(myError, dbActionFailedException);
+                return NotFound(myError + dbActionFailedException.Message);
+            }
             catch (Exception exception)
             {
-                string myError = "Failed to Update a car, unknown error:";
+                string myError = "Failed to update a car, unknown error:";
                 MyLogger.LogException(myError, exception);
                 return NotFound(myError + exception.Message);
             }
 
         }
 
-        // Updates car values
         [HttpPut]
         [Route("Buy/{id:}")]
         public async Task<IActionResult> BuyCar([FromRoute] long id)
@@ -85,40 +75,33 @@ namespace Server.Controllers
             try
             {
                 var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
-
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
+                    throw new NotFoundInDbException();
                 }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with id: " + id.ToString() + " could not be bought, ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
-                }
-
 
                 if (car.UnitsInStock == 0)
                 {
                     return BadRequest("Invalid Request: " + ModelState);
                 }
-                car.UnitsInStock = car.UnitsInStock - 1;
 
-                try
-                {
-                    await mydbcontext.SaveChangesAsync();
-                }
-                catch (DbActionFailedException dbActionFailedException)
-                {
-                    string myError = "failed to save car changes: ";
-                    MyLogger.LogException(myError, dbActionFailedException);
-                    return NotFound(myError + dbActionFailedException.Message);
-                }
+                car.UnitsInStock--;
+
+                await mydbcontext.SaveChangesAsync();
+
                 return Ok(car);
-
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Car with id: " + id.ToString() + " could not be bought, ";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError + notFoundInDbException.Message);
+            }
+            catch (DbActionFailedException dbActionFailedException)
+            {
+                string myError = "Failed to save car changes: ";
+                MyLogger.LogException(myError, dbActionFailedException);
+                return NotFound(myError + dbActionFailedException.Message);
             }
             catch (Exception exception)
             {
@@ -126,8 +109,8 @@ namespace Server.Controllers
                 MyLogger.LogException(myError, exception);
                 return NotFound(myError + exception.Message);
             }
-        }
 
+        }
 
     }
 }

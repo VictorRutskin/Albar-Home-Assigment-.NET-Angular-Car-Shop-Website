@@ -14,37 +14,20 @@ namespace Server.Controllers
         [HttpDelete]
         [Authorize]
         [Route("{id:}")]
-        public async Task<IActionResult> DeleteCar([FromRoute] long id)
+        public async Task<IActionResult> DeleteCar(long id)
         {
             try
             {
-                var car = await mydbcontext.Cars.FirstOrDefaultAsync(x => x.Id == id);
+                var car = await mydbcontext.Cars.FindAsync(id);
 
-                try
+                if (car == null)
                 {
-                    if (car == null)
-                    {
-                        throw new NotFoundInDbException();
-                    }
+                    throw new NotFoundInDbException($"Car with id '{id}' not found.");
                 }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Car with id: " + id.ToString() + ", ";
-                    MyLogger.LogException(myError,notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
-                }
-                try
-                {
-                    mydbcontext.Cars.Remove(car);
-                    await mydbcontext.SaveChangesAsync();
-                }
-                catch (DbActionFailedException dbActionFailedException)
-                {
-                    string myError = "failed to remove a car from db: ";
-                    MyLogger.LogException(myError, dbActionFailedException);
-                    return NotFound(myError + dbActionFailedException.Message);
-                }
-                // If image exists delete, else dont
+
+                mydbcontext.Cars.Remove(car);
+                await mydbcontext.SaveChangesAsync();
+
                 string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
                 if (System.IO.File.Exists(imagePath))
                 {
@@ -53,11 +36,23 @@ namespace Server.Controllers
 
                 return NoContent();
             }
-            catch (Exception exception)
+            catch (NotFoundInDbException exception)
+            {
+                string myError = "Not found in DataBase";
+                MyLogger.LogException(myError, exception);
+                return NotFound(myError);
+            }
+            catch (DbUpdateException exception)
             {
                 string myError = "Failed to delete a car, unknown error:";
+                MyLogger.LogException(myError,exception);
+                return BadRequest(myError);
+            }
+            catch (Exception exception)
+            {
+                string myError = "Unknown Error";
                 MyLogger.LogException(myError, exception);
-                return NotFound(myError + exception.Message);
+                return StatusCode(500, "An error occurred while deleting the car.");
             }
         }
 
