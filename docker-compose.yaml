@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  
+  nginx:
+    container_name: app
+    build: ./Client
+    ports:
+      - 8080:80
+
+  db:
+    container_name: db
+    build: ./db
+    ports:
+      - 1443:1433
+
+  server:
+    container_name: server
+    build: ./Server/Server
+    ports:
+      - 5001:5001
