@@ -23,10 +23,10 @@ namespace Server.Controllers
                 foreach (var car in cars)
                 {
                     // If image exists use it, else use empty
-                    string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                    string imagePath = Paths.GetLocalPath() + @"/" + car.ImageSrc!;
                     if (System.IO.File.Exists(imagePath))
                     {
-                        car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                        car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"/" + car.ImageSrc!).ToString();
                     }
                     //no image src detected
                     else
@@ -66,7 +66,7 @@ namespace Server.Controllers
                     throw new NotFoundInDbException();
                 }
 
-                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"/" + car.ImageSrc!).ToString();
 
                 return Ok(car);
             }

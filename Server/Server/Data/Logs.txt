@@ -1,7 +1,0 @@
-﻿Logs:
-.
-.
-
-
-Time: 12-Mar-23 21:49:11,  Description: Invalid modelstate: ,   Exception Message: Exception of type 'Server.Helpers.ExceptionHandler+ModelStateException' was thrown..
-
