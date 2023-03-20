@@ -37,9 +37,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
-
-app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
@@ -47,8 +46,6 @@ app.UseStaticFiles(new StaticFileOptions()
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
     RequestPath = new PathString("/wwwroot")
 });
-
-app.UseAuthorization();
 
 app.MapControllers();
 

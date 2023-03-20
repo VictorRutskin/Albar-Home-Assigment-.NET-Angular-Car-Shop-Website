@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Server.Helpers;
 using System.Text;
@@ -8,16 +10,17 @@ namespace Server.Startup
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             ConfiguredValues configuredValues = new ConfiguredValues();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("EnableCORS", builder =>
@@ -34,8 +37,6 @@ namespace Server.Startup
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                ConfiguredValues configuredValues = new ConfiguredValues();
-
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     // Validate the token's issuer, audience, expiration, and key
@@ -60,19 +61,16 @@ namespace Server.Startup
                 app.UseDeveloperExceptionPage();
             }
 
-            // Configuring CORS to allow requests from your Angular app on port 4200
             app.UseCors("EnableCORS");
 
-            // Serving static files from the wwwroot folder
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
-                RequestPath = "/wwwroot"
-            });
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseHttpsRedirection();
-            app.UseRouting();
+
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
