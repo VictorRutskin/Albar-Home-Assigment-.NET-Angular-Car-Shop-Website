@@ -5,3 +5,5 @@
 
 Time: 12-Mar-23 21:49:11,  Description: Invalid modelstate: ,   Exception Message: Exception of type 'Server.Helpers.ExceptionHandler+ModelStateException' was thrown..
 
+Time: 21-Mar-23 01:08:00,  Description: Car with parameters: Id: 0, Name: yotam, Category: , Price: 0, UnitsInStock: 0, ModelYear: , ImageSrc: ,  not found in the database,   Exception Message: Exception of type 'Server.Helpers.ExceptionHandler+NotFoundInDbException' was thrown..
+

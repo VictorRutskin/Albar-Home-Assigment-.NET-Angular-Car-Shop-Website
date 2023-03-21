@@ -4,7 +4,6 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { environment } from 'src/app/Environments/myEnvironment';
 import { CarsService } from 'src/app/Services/Cars/cars.service';
 
 @Component({
