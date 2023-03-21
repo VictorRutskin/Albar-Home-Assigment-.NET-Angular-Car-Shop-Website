@@ -26,5 +26,5 @@ ENTRYPOINT ["sh", "-c", "ng serve --host 0.0.0.0"]
 # COPY --from=build /app/dist/client /usr/share/nginx/html
 #
 # EXPOSE 80
-#
-# CMD ["nginx", "-g", "daemon off;"]
+
+CMD ["nginx", "-g", "daemon off;"]

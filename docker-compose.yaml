@@ -8,11 +8,11 @@ services:
     networks:
      - vpcbr
     ports:
-      - 80:4200
+      - 4200:4200
 
   db:
     container_name: db
-    build: ./db
+    build: ./infra/db
     networks:
      - vpcbr
     ports:
