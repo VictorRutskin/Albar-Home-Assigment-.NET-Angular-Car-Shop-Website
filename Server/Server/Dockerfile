@@ -9,7 +9,10 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /App
+
+ENV ASPNETCORE_URLS=http://*:7099
+
 COPY --from=build-env /App/out .
 ENTRYPOINT ["dotnet", "Server.dll"]

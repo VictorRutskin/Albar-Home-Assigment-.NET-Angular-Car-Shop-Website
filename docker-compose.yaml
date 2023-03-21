@@ -18,4 +18,4 @@ services:
     container_name: server
     build: ./Server/Server
     ports:
-      - 5001:5001
+      - 7099:7099
