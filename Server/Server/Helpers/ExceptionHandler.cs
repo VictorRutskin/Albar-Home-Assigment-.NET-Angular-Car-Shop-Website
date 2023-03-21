@@ -46,21 +46,6 @@
             }
         }
 
-        public class DbActionFailedException : ExceptionHandler
-        {
-
-            public DbActionFailedException(string explanation = "") : base()
-            {
-                DateTime Now = DateTime.Now;
-
-                _Name = "DbActionFailedException";
-                _Description = "Failed to do a db action.";
-                _Explanation = explanation;
-                _Time = Now.ToString();
-
-            }
-        }
-
         public class ModelStateException : ExceptionHandler
         {
 

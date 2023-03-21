@@ -53,12 +53,6 @@ namespace Server.Controllers
                 MyLogger.LogException(myError, notFoundInDbException);
                 return NotFound(myError + notFoundInDbException.Message);
             }
-            catch (DbActionFailedException dbActionFailedException)
-            {
-                string myError = "Failed to save car changes: ";
-                MyLogger.LogException(myError, dbActionFailedException);
-                return NotFound(myError + dbActionFailedException.Message);
-            }
             catch (Exception exception)
             {
                 string myError = "Failed to update a car, unknown error:";
@@ -96,12 +90,6 @@ namespace Server.Controllers
                 string myError = "Car with id: " + id.ToString() + " could not be bought, ";
                 MyLogger.LogException(myError, notFoundInDbException);
                 return NotFound(myError + notFoundInDbException.Message);
-            }
-            catch (DbActionFailedException dbActionFailedException)
-            {
-                string myError = "Failed to save car changes: ";
-                MyLogger.LogException(myError, dbActionFailedException);
-                return NotFound(myError + dbActionFailedException.Message);
             }
             catch (Exception exception)
             {
