@@ -2,11 +2,11 @@ version: '3'
 
 services:
   
-  # nginx:
-  #   container_name: app
-  #   build: ./Client
-  #   ports:
-  #     - 8080:80
+  frontend:
+    container_name: app
+    build: ./Client
+    ports:
+      - 4200:4200
 
   db:
     container_name: db
