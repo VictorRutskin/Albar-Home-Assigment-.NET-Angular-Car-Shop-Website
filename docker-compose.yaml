@@ -5,17 +5,32 @@ services:
   frontend:
     container_name: app
     build: ./Client
+    networks:
+     - vpcbr
     ports:
       - 4200:4200
 
   db:
     container_name: db
     build: ./db
+    networks:
+     - vpcbr
     ports:
       - 1443:1433
 
   server:
     container_name: server
     build: ./Server/Server
+    networks:
+      vpcbr:
+       ipv4_address: 10.5.0.6
     ports:
       - 7099:7099
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1

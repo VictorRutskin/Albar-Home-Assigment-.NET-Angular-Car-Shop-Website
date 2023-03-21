@@ -1,3 +1,3 @@
 export const environment = {
-    ServerUrl: 'http://server:7099'
+    ServerUrl: 'http://10.5.0.6:7099'
   };

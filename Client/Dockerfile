@@ -16,7 +16,7 @@ RUN ng build
 # CMD ["sh","-c", "sleep 1000"]
 
 
-ENTRYPOINT ["sh", "-c", "ng serve", "--host 0.0.0.0"]
+ENTRYPOINT ["sh", "-c", "ng serve --host 0.0.0.0"]
 
 
 # # Serve stage
