@@ -7,6 +7,7 @@ using Server.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static Server.Helpers.ExceptionHandler;
 
 namespace Server.Controllers
 {
@@ -28,26 +29,37 @@ namespace Server.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] User userRequest)
         {
-            if(userRequest == null)
+            try
             {
-                return BadRequest("Invalid Request");
+                var user = await mydbcontext.Users.FirstOrDefaultAsync(x => x.Name == userRequest.Name && x.Password == userRequest.Password);
+
+                if (user == null)
+                {
+                    throw new UnauthorizedUserException();
+                }
+                // updating login to now
+                user.LastLogin = DateTime.Now;
+                await mydbcontext.SaveChangesAsync();
+
+                ConfiguredValues configuredValues = new ConfiguredValues();
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(configuredValues.GetToken());
+
+                return Ok(new { Token = tokenString });
             }
-
-            var user = await mydbcontext.Users.FirstOrDefaultAsync(x => x.Name == userRequest.Name && x.Password == userRequest.Password);
-
-            if(user == null) 
+            catch (UnauthorizedUserException exception)
             {
-                return Unauthorized("No user was found");
+                string myError = userRequest.Name+ " Not found in DataBase";
+                MyLogger.LogException(myError, exception);
+                return Unauthorized(myError);
             }
-            // updating login to now
-            user.LastLogin = DateTime.Now;
-            await mydbcontext.SaveChangesAsync();
-
-            ConfiguredValues configuredValues = new ConfiguredValues();
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(configuredValues.GetToken());
-
-            return Ok(new {Token = tokenString});
+            catch (Exception exception)
+            {
+                string myError = "Unknown Error";
+                MyLogger.LogException(myError, exception);
+                return StatusCode(500, "An error occurred while deleting the car.");
+            }
         }
+
 
     }
 }

@@ -34,11 +34,14 @@ startup.Configure(app, builder.Environment);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // using swagger
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
+
+    app.UseDeveloperExceptionPage(); // the default exception page in the dev environment 
 }
 
+// configuring static files in the project
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
@@ -46,6 +49,7 @@ app.UseStaticFiles(new StaticFileOptions()
     RequestPath = new PathString("/wwwroot")
 });
 
+// Mapping HTTP requests to controller actions
 app.MapControllers();
 
 app.Run();

@@ -61,5 +61,20 @@
             }
         }
 
+        public class UnauthorizedUserException : ExceptionHandler
+        {
+
+            public UnauthorizedUserException(string explanation = "") : base()
+            {
+                DateTime Now = DateTime.Now;
+
+                _Name = "UnauthorizedUserException";
+                _Description = "User request to log in isnt authorized.";
+                _Explanation = explanation;
+                _Time = Now.ToString();
+
+            }
+        }
+
     }
 }
