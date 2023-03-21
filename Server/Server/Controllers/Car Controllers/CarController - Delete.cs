@@ -42,12 +42,6 @@ namespace Server.Controllers
                 MyLogger.LogException(myError, exception);
                 return NotFound(myError);
             }
-            catch (DbUpdateException exception)
-            {
-                string myError = "Failed to delete a car, unknown error:";
-                MyLogger.LogException(myError,exception);
-                return BadRequest(myError);
-            }
             catch (Exception exception)
             {
                 string myError = "Unknown Error";

@@ -156,18 +156,10 @@ namespace Server.Controllers
                 var cars = await mydbcontext.Cars.OrderByDescending(c => c.UnitsInStock)
                                              .Take(3)
                                              .ToListAsync();
-                try
+
+                if (cars == null || !cars.Any())
                 {
-                    if (cars == null || !cars.Any())
-                    {
-                        throw new NotFoundInDbException();
-                    }
-                }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Failed go get 3 cars: ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
+                    throw new NotFoundInDbException();
                 }
 
                 foreach (var car in cars)
@@ -186,6 +178,12 @@ namespace Server.Controllers
                 }
 
                 return Ok(cars);
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Failed go get 3 cars: ";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError + notFoundInDbException.Message);
             }
             catch (Exception exception)
             {
