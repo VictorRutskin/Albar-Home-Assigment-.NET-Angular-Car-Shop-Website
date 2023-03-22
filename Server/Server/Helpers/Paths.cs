@@ -5,7 +5,7 @@
     {
         public static string GetLogsFilePath()
         {
-            return Path.Combine("Data", "Logs.txt");
+            return Path.Combine("wwwroot", "Logger", "Logs.txt");
         }
 
         public static string GetLocalPath()

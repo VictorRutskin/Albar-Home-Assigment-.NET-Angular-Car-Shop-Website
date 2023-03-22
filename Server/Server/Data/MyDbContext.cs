@@ -6,6 +6,10 @@ namespace Server.Data
     // My data template
     public class MyDbContext : DbContext
     {
+        public MyDbContext()
+        {
+        }
+
         public MyDbContext(DbContextOptions options) : base(options)
         {
         }

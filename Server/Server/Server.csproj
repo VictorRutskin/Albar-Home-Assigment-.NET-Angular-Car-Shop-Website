@@ -15,9 +15,9 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +30,7 @@
     <None Include="wwwroot\Images\Cars\Car-7.jpg" />
     <None Include="wwwroot\Images\Cars\Car-8.jpg" />
     <None Include="wwwroot\Images\Cars\Car-9.jpg" />
+    <None Include="wwwroot\Logger\Logs.txt" />
   </ItemGroup>
 
 </Project>
