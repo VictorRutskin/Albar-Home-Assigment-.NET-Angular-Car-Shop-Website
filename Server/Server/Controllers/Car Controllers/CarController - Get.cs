@@ -38,7 +38,7 @@ namespace Server.Controllers
                 if (InvalidImageCheck)
                 {
                     // Partial Content because not all images loaded
-                    return StatusCode(StatusCodes.Status206PartialContent);
+                    return StatusCode(StatusCodes.Status206PartialContent, cars);
                 }
 
                 return Ok(cars);
@@ -66,7 +66,25 @@ namespace Server.Controllers
                     throw new NotFoundInDbException();
                 }
 
-                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                bool InvalidImageCheck = false;
+
+                // If image exists use it, else use empty
+                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                if (System.IO.File.Exists(imagePath))
+                {
+                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                }
+                //no image src detected
+                else
+                {
+                    car.ImageSrc = "";
+                    InvalidImageCheck = true;
+                }
+                if (InvalidImageCheck)
+                {
+                    // Partial Content because not all images loaded
+                    return StatusCode(StatusCodes.Status206PartialContent, car);
+                }
 
                 return Ok(car);
             }
