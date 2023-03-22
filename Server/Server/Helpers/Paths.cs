@@ -5,7 +5,22 @@
     {
         public static string GetLogsFilePath()
         {
-            return Path.Combine("Data", "Logs.txt");
+
+            // return Path.Combine("Data", "Logs.txt");
+            string logsFilePath = Path.Combine("Data", "Logs.txt");
+            string dataFolder = Path.GetDirectoryName(logsFilePath);
+
+            if (!Directory.Exists(dataFolder))
+            {
+                Directory.CreateDirectory(dataFolder);
+            }
+
+            if (!File.Exists(logsFilePath))
+            {
+                File.Create(logsFilePath).Dispose();
+            }
+
+            return logsFilePath;
         }
 
         public static string GetLocalPath()

@@ -12,19 +12,16 @@ COPY . .
 
 RUN ng build
 
-#
+ # In case we run this withou nginx
 # CMD ["ng serve", "host 0.0.0.0"]
 # CMD ["sh","-c", "sleep 1000"]
+# ENTRYPOINT ["sh", "-c", "ng serve --host 0.0.0.0"]
 
+# Serve stage
+FROM nginx:1.21-alpine
 
-ENTRYPOINT ["sh", "-c", "ng serve --host 0.0.0.0"]
+COPY --from=build /app/dist/client /usr/share/nginx/html
 
-
-# # Serve stage
-# FROM nginx:1.21-alpine
-#
-# COPY --from=build /app/dist/client /usr/share/nginx/html
-#
-# EXPOSE 80
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

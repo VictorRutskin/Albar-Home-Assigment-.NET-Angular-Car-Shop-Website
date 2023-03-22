@@ -18,10 +18,14 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Images\" />
-  </ItemGroup>
-
+   </ItemGroup>
+  
   <ItemGroup>
-    <None Include="wwwroot\Images\Cars\Car-1.jpg" />
+      <Content Include="Data\Logs.txt" />
+   </ItemGroup>
+  
+   <ItemGroup>
+     <None Include="wwwroot\Images\Cars\Car-1.jpg" />
     <None Include="wwwroot\Images\Cars\Car-10.jpg" />
     <None Include="wwwroot\Images\Cars\Car-3.jpg" />
     <None Include="wwwroot\Images\Cars\Car-4.jpg" />

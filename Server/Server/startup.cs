@@ -27,7 +27,7 @@ namespace Server.Startup
                 {
                     builder.AllowAnyHeader()
                            .AllowAnyMethod()
-                           .WithOrigins(configuredValues.GetClient(), configuredValues.GetServer());
+                           .WithOrigins(configuredValues.GetClient(), configuredValues.GetServer(), "http://frontend", "http://localhost");
                 });
             });
 
