@@ -9,7 +9,7 @@ import { Car } from './../../Models/Car.model';
   styleUrls: ['./cars-cards.component.scss'],
 })
 export class CarsCardsComponent implements OnInit {
-  @Input() userAgent: string = 'Visitor';
+  @Input() userAgent: string = 'Visitor'; // i dont need this 99% sure lol
 
   cars: Car[] = [];
   filteredCars: Car[] = [];
@@ -20,7 +20,6 @@ export class CarsCardsComponent implements OnInit {
 
   constructor(
     private carsService: CarsService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 
