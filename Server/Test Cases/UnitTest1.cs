@@ -41,8 +41,6 @@ namespace Test_Cases
         [Test]
         public async Task GetAllCars_ReturnsAllCars()
         {
-            Assert.Throws<System.Exception>(() => throw new System.Exception("GetAllCarsError."));
-
             // Act
             var result = await _controller.GetAllCars();
 
