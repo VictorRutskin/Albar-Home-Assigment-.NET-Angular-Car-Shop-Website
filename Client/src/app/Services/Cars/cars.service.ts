@@ -11,6 +11,15 @@ export class CarsService {
   constructor(private http: HttpClient) {}
 
   // Gets header and adds the token
+  private DefaultHeader(): HttpHeaders {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    });
+    return headers;
+  }
+
+  // Gets header and adds the token
   private getHeaders(): HttpHeaders {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -29,41 +38,58 @@ export class CarsService {
 
   // Gets all cars
   public GetAllCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(environment.ServerUrl + '/api/Car');
+    const headers = this.DefaultHeader();
+    return this.http.get<Car[]>(environment.ServerUrl + '/api/Car',            {
+      headers,
+    });
   }
 
   // Gets 3 cars with highest units in stock value
   public Get3CarExtras(): Observable<Car[]> {
-    return this.http.get<Car[]>(environment.ServerUrl + '/api/Car/Top3');
+    const headers = this.DefaultHeader();
+    return this.http.get<Car[]>(environment.ServerUrl + '/api/Car/Top3',            {
+      headers,
+    });
   }
 
   // Returns a single car using id
   public GetSingleCar(id: number): Observable<Car> {
-    return this.http.get<Car>(environment.ServerUrl + '/api/Car/' + id);
+    const headers = this.DefaultHeader();
+    return this.http.get<Car>(environment.ServerUrl + '/api/Car/' + id, {
+      headers,
+    });
   }
 
   // Returns a single car using parameters
   public GetSingleCar2(Car: Car): Observable<Car> {
+    const headers = this.DefaultHeader();
     let params = new HttpParams()
       .set('Name', Car.name)
       .set('Category', Car.category)
       .set('Price', Car.price.toString());
     return this.http.get<Car>(environment.ServerUrl + '/api/Car/GetCar2', {
+      headers,
       params: params,
     });
   }
 
   // Returns an image using id
   public GetImage(id: number) {
+    const headers = this.DefaultHeader();
     return this.http.get(environment.ServerUrl + '/api/Car/image/' + id, {
+      headers,
       responseType: 'blob',
     });
   }
 
   // Returns a car id using name
   public GetCarIdUsingName(searchString: string) {
+    const headers = this.DefaultHeader();
     return this.http.get<number>(
-      environment.ServerUrl + '/api/Car/GetCarWithName?name=' + searchString
+      environment.ServerUrl + '/api/Car/GetCarWithName?name=' + searchString,
+      {
+        headers,
+      }
     );
   }
 
@@ -87,18 +113,26 @@ export class CarsService {
 
   // Buys one car (-1 units in stock value)
   public PutBuyOne(boughtCar: Car): Observable<Car> {
+    const headers = this.DefaultHeader();
     return this.http.put<Car>(
       environment.ServerUrl + '/api/Car/Buy/' + boughtCar.id,
-      boughtCar
+      boughtCar,
+      {
+        headers,
+      }
     );
   }
 
   // Updates car values (admin)
   public PutUpdateCar(UpdatedCar: Car): Observable<Car> {
     const headers = this.getHeaders();
-    return this.http.put<Car>(environment.ServerUrl + '/api/Car/' + UpdatedCar.id, UpdatedCar, {
-      headers,
-    });
+    return this.http.put<Car>(
+      environment.ServerUrl + '/api/Car/' + UpdatedCar.id,
+      UpdatedCar,
+      {
+        headers,
+      }
+    );
   }
 
   // Deletes car (admin)
