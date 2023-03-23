@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using static Server.Helpers.ExceptionHandler;
+using Microsoft.Extensions.Configuration;
 
 namespace Server.Controllers
 {
@@ -16,11 +17,12 @@ namespace Server.Controllers
     public class UserController : Controller
     {
         private readonly MyDbContext mydbcontext;
+        private readonly IConfiguration _configuration;
 
-
-        public UserController(MyDbContext mydbcontext)
+        public UserController(MyDbContext mydbcontext, IConfiguration configuration)
         {
             this.mydbcontext = mydbcontext;
+            _configuration = configuration;
 
         }
 
@@ -41,7 +43,7 @@ namespace Server.Controllers
                 user.LastLogin = DateTime.Now;
                 await mydbcontext.SaveChangesAsync();
 
-                ConfiguredValues configuredValues = new ConfiguredValues();
+                ConfiguredValues configuredValues = new ConfiguredValues(_configuration);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(configuredValues.GetToken());
 
                 return Ok(new { Token = tokenString });

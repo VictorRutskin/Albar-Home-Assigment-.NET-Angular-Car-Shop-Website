@@ -13,8 +13,6 @@ namespace Test_Cases
     public class TestCases
     {
         private MyDbContext _dbContext;
-        private UserController _Usercontroller;
-        private CarController _Carcontroller;
 
         [SetUp]
         public void SetUp()
@@ -25,9 +23,6 @@ namespace Test_Cases
                 .Options;
 
             _dbContext = new MyDbContext(options);
-
-            _Carcontroller = new CarController(_dbContext);
-            _Usercontroller = new UserController(_dbContext);
         }
 
         private string GetConnectionString(string connectionStringName)

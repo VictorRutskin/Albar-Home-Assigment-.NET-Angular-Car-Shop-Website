@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,6 +20,13 @@ namespace Server.Helpers
     // Class to define configurations values for this project
     public class ConfiguredValues : IConfiguredValues
     {
+        private readonly IConfiguration _configuration;
+
+        public ConfiguredValues(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public string GetSecretKey()
         {
             return "123BossVictor123";
@@ -26,13 +34,14 @@ namespace Server.Helpers
 
         public string GetClient()
         {
-            return "http://localhost:4200";
+            return _configuration.GetValue<string>("ConfiguredValues:Client");
         }
 
         public string GetServer()
         {
-            return "https://localhost:7099/";
+            return _configuration.GetValue<string>("ConfiguredValues:Server");
         }
+
 
         // Configuring token options
         public JwtSecurityToken GetToken()
