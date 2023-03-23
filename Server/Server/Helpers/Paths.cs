@@ -7,7 +7,7 @@
         {
 
             // return Path.Combine("Data", "Logs.txt");
-            string logsFilePath = Path.Combine("Data", "Logs.txt");
+            string logsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Logs.txt");
             string dataFolder = Path.GetDirectoryName(logsFilePath);
 
             if (!Directory.Exists(dataFolder))
