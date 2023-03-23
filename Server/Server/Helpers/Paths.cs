@@ -5,29 +5,33 @@
     {
         public static string GetLogsFilePath()
         {
+            string wwwrootFolder = Path.Combine("wwwroot", "Data", "Logger", "Logs.txt");
+            string wwwrootFolderName = Path.GetDirectoryName(wwwrootFolder);
 
-            // return Path.Combine("Data", "Logs.txt");
-            string logsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Logs.txt");
-            string dataFolder = Path.GetDirectoryName(logsFilePath);
-
-            if (!Directory.Exists(dataFolder))
+            // Creates missing folders if wwwroot doesnt exist
+            if (!Directory.Exists(Path.Combine("wwwroot")))
             {
-                Directory.CreateDirectory(dataFolder);
+                Directory.CreateDirectory(Path.Combine("wwwroot"));
+                Directory.CreateDirectory(Path.Combine("wwwroot", "Images"));
+                Directory.CreateDirectory(Path.Combine("wwwroot", "Logger"));
             }
 
-            if (!File.Exists(logsFilePath))
+            string loggerFilePath = Path.Combine("wwwroot", "Logger", "Logs.txt");
+
+            // Creates logger txt file if doesnt exist
+            if (!File.Exists(loggerFilePath))
             {
-                File.Create(logsFilePath).Dispose();
+                File.Create(loggerFilePath).Dispose();
             }
 
-            return logsFilePath;
+            return wwwrootFolder;
         }
 
         public static string GetLocalPath()
         {
             return Path.Combine("wwwroot", "Images", "Cars");
-
         }
+
         public static string GetGlobalPath()
         {
             return Path.Combine(Directory.GetCurrentDirectory(), GetLocalPath());

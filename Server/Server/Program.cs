@@ -19,7 +19,6 @@ builder.Services.Configure<FormOptions>(o =>
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -35,11 +34,14 @@ startup.Configure(app, builder.Environment);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // using swagger
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
+
+    app.UseDeveloperExceptionPage(); // the default exception page in the dev environment 
 }
 
+// configuring static files in the project
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
@@ -47,6 +49,7 @@ app.UseStaticFiles(new StaticFileOptions()
     RequestPath = new PathString("/wwwroot")
 });
 
+// Mapping HTTP requests to controller actions
 app.MapControllers();
 
 app.Run();

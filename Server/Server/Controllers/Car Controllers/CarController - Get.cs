@@ -38,7 +38,7 @@ namespace Server.Controllers
                 if (InvalidImageCheck)
                 {
                     // Partial Content because not all images loaded
-                    return StatusCode(StatusCodes.Status206PartialContent);
+                    return StatusCode(StatusCodes.Status206PartialContent, cars);
                 }
 
                 return Ok(cars);
@@ -66,7 +66,25 @@ namespace Server.Controllers
                     throw new NotFoundInDbException();
                 }
 
-                car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"/" + car.ImageSrc!).ToString();
+                bool InvalidImageCheck = false;
+
+                // If image exists use it, else use empty
+                string imagePath = Paths.GetLocalPath() + @"/" + car.ImageSrc!;
+                if (System.IO.File.Exists(imagePath))
+                {
+                    car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"/" + car.ImageSrc!).ToString();
+                }
+                //no image src detected
+                else
+                {
+                    car.ImageSrc = "";
+                    InvalidImageCheck = true;
+                }
+                if (InvalidImageCheck)
+                {
+                    // Partial Content because not all images loaded
+                    return StatusCode(StatusCodes.Status206PartialContent, car);
+                }
 
                 return Ok(car);
             }
@@ -156,18 +174,10 @@ namespace Server.Controllers
                 var cars = await mydbcontext.Cars.OrderByDescending(c => c.UnitsInStock)
                                              .Take(3)
                                              .ToListAsync();
-                try
+
+                if (cars == null || !cars.Any())
                 {
-                    if (cars == null || !cars.Any())
-                    {
-                        throw new NotFoundInDbException();
-                    }
-                }
-                catch (NotFoundInDbException notFoundInDbException)
-                {
-                    string myError = "Failed go get 3 cars: ";
-                    MyLogger.LogException(myError, notFoundInDbException);
-                    return NotFound(myError + notFoundInDbException.Message);
+                    throw new NotFoundInDbException();
                 }
 
                 foreach (var car in cars)
@@ -186,6 +196,12 @@ namespace Server.Controllers
                 }
 
                 return Ok(cars);
+            }
+            catch (NotFoundInDbException notFoundInDbException)
+            {
+                string myError = "Failed go get 3 cars: ";
+                MyLogger.LogException(myError, notFoundInDbException);
+                return NotFound(myError + notFoundInDbException.Message);
             }
             catch (Exception exception)
             {
