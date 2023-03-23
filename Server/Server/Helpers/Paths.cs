@@ -6,7 +6,6 @@
         public static string GetLogsFilePath()
         {
             string wwwrootFolder = Path.Combine("wwwroot", "Data", "Logger", "Logs.txt");
-            string wwwrootFolderName = Path.GetDirectoryName(wwwrootFolder);
 
             // Creates missing folders if wwwroot doesnt exist
             if (!Directory.Exists(Path.Combine("wwwroot")))
