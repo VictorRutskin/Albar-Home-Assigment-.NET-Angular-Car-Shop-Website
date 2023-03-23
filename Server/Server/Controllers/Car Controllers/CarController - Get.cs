@@ -184,10 +184,10 @@ namespace Server.Controllers
                 {
 
                     // If image exists use it, else use empty
-                    string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                    string imagePath = Paths.GetLocalPath() + @"/" + car.ImageSrc!;
                     if (System.IO.File.Exists(imagePath))
                     {
-                        car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"\" + car.ImageSrc!).ToString();
+                        car.ImageSrc = System.IO.File.ReadAllBytesAsync(Paths.GetLocalPath() + @"/" + car.ImageSrc!).ToString();
                     }
                     else
                     {

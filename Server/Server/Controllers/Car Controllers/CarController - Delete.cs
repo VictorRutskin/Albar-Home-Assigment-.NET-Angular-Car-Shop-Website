@@ -28,7 +28,7 @@ namespace Server.Controllers
                 mydbcontext.Cars.Remove(car);
                 await mydbcontext.SaveChangesAsync();
 
-                string imagePath = Paths.GetLocalPath() + @"\" + car.ImageSrc!;
+                string imagePath = Paths.GetLocalPath() + @"/" + car.ImageSrc!;
                 if (System.IO.File.Exists(imagePath))
                 {
                     System.IO.File.Delete(imagePath);
